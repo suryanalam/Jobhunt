@@ -38,6 +38,10 @@
                                         <button class="nav-link" id="v-pills-6-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-6" type="button" role="tab"
                                             aria-controls="v-pills-6" aria-selected="false">Blog</button>
+
+                                        <button class="nav-link" id="v-pills-7-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-7" type="button" role="tab"
+                                            aria-controls="v-pills-7" aria-selected="false">Home SEO</button>
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-12">
@@ -106,7 +110,7 @@
                                             {{-- Search section end --}}
                                         </div>
 
-                                        <div class="tab-pane fade"        id="v-pills-2" role="tabpanel"
+                                        <div class="tab-pane fade" id="v-pills-2" role="tabpanel"
                                             aria-labelledby="v-pills-2-tab" tabindex="0">
                                             {{-- Featured-Jobs-section-start --}}
                                                 <div class="row">
@@ -297,6 +301,28 @@
                                                                 </option>
                                                             </select>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Post-section-end --}}
+                                        </div>
+
+                                        <div class="tab-pane fade" id="v-pills-7" role="tabpanel"
+                                            aria-labelledby="v-pills-7-tab" tabindex="0">
+                                            {{-- Post-section-start --}}
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Title *</label>
+                                                        <input type="text" class="form-control"
+                                                            name="title"
+                                                            value="{{ $page_home_data->title }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Meta Description</label>
+                                                        <input type="text" class="form-control"
+                                                            name="meta_description"
+                                                            value="{{ $page_home_data->meta_description }}">
                                                     </div>
                                                 </div>
                                             </div>

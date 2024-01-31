@@ -20,7 +20,14 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown {{ Request::is('admin/home-page') || Request::is('admin/faq-page') || Request::is('admin/blog-page') || Request::is('admin/term-page') || Request::is('admin/privacy-page') || Request::is('admin/contact-page') ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ 
+                    Request::is('admin/home-page') || Request::is('admin/faq-page') ||
+                    Request::is('admin/blog-page') || Request::is('admin/term-page') ||
+                    Request::is('admin/privacy-page') || Request::is('admin/contact-page') ||
+                    Request::is('admin/job-category-page') || Request::is('admin/pricing-page') ||
+                    Request::is('admin/other-page') ? 'active' : '' 
+                }}"
+             >
                 <a href="#" class="nav-link has-dropdown">
                     <i class="fas fa-hand-point-right"></i>
                     <span>Page Settings</span>
@@ -60,6 +67,25 @@
                             <i class="fas fa-angle-right"></i>Contact
                         </a>
                     </li>
+
+                    <li class="{{ Request::is('admin/job-category-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_job_category_page') }}">
+                            <i class="fas fa-angle-right"></i>Job Categories
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('admin/pricing-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_pricing_page') }}">
+                            <i class="fas fa-angle-right"></i>Pricing
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('admin/other-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_other_page') }}">
+                            <i class="fas fa-angle-right"></i>Other
+                        </a>
+                    </li>
+
                 </ul>
             </li>
 
@@ -106,6 +132,13 @@
                 <a class="nav-link" href="{{ route('admin_faq') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="FAQs"><i class="fas fa-hand-point-right"></i>
                     <span>FAQ</span>
+                </a>
+            </li>
+
+            <li class="{{ Request::is('admin/package/*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin_package') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Packages"><i class="fas fa-hand-point-right"></i>
+                    <span>Packages</span>
                 </a>
             </li>
 

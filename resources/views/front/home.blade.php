@@ -1,5 +1,8 @@
 @extends('front.layout.app')
 
+@section('seo-title', "$page_home_data->title")
+@section('seo-meta-description', "$page_home_data->meta_description")
+
 @section('main_content')
     <div class="slider" style="background-image: url({{ asset('uploads/' . $page_home_data->background) }})">
         <div class="bg"></div>

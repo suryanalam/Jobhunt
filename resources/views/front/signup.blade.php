@@ -40,63 +40,70 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                             aria-labelledby="pills-home-tab" tabindex="0">
-                            <div class="mb-3">
-                                <label for="" class="form-label">Candidate Name *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Username *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Email Address *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Password *</label>
-                                <input type="password" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Confirm Password *</label>
-                                <input type="password" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary bg-website">
-                                    Create Account
-                                </button>
-                            </div>
+                            <form action="{{ route('candidate_signup') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Candidate Name *</label>
+                                    <input type="text" class="form-control" name="name"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Username *</label>
+                                    <input type="text" class="form-control" name="username"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email Address *</label>
+                                    <input type="text" class="form-control" name="email"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Password *</label>
+                                    <input type="password" class="form-control" name="password"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Confirm Password *</label>
+                                    <input type="password" class="form-control" name="confirm_password"/>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary bg-website">
+                                        Create Account
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                             aria-labelledby="pills-profile-tab" tabindex="0">
-                            <div class="mb-3">
-                                <label for="" class="form-label">Company Name *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Contact Person Name *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Username *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Email Address *</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Password *</label>
-                                <input type="password" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Confirm Password *</label>
-                                <input type="password" class="form-control" />
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary bg-website">
-                                    Create Account
-                                </button>
-                            </div>
+                            <form action="{{ route('company_signup') }}" method="POST">        
+                                @csrf                    
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" name="company_name"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Contact Person Name *</label>
+                                    <input type="text" class="form-control" name="person_name" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Username *</label>
+                                    <input type="text" class="form-control" name="username" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email Address *</label>
+                                    <input type="text" class="form-control" name="email" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Password *</label>
+                                    <input type="password" class="form-control" name="password" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Confirm Password *</label>
+                                    <input type="password" class="form-control" name="confirm_password" />
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary bg-website">
+                                        Create Account
+                                    </button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
 

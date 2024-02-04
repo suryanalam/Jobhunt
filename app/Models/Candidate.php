@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Candidate extends Authenticatable
 {
     use HasFactory;
-    public $table = "candidates";
+
 }
 

@@ -1,12 +1,12 @@
 <ul class="list-group list-group-flush">
-    <li class="list-group-item active">
+    <li class="list-group-item {{ Request::is('company/dashboard') ? 'active' : '' }}">
         <a href="{{ route('company_dashboard') }}">Dashboard</a>
     </li>
-    <li class="list-group-item">
-        <a href="company-payment.html">Make Payment</a>
+    <li class="list-group-item {{ Request::is('company/make-payment') ? 'active' : '' }}">
+        <a href="{{ route('company_make_payment') }}">Make Payment</a>
     </li>
-    <li class="list-group-item">
-        <a href="company-orders.html">Orders</a>
+    <li class="list-group-item {{ Request::is('company/orders') ? 'active' : '' }}">
+        <a href="{{ route('company_orders') }}">Orders</a>
     </li>
     <li class="list-group-item">
         <a href="company-job-add.html">Create Job</a>
@@ -14,17 +14,20 @@
     <li class="list-group-item">
         <a href="company-jobs.html">All Jobs</a>
     </li>
-    <li class="list-group-item">
-        <a href="company-photos.html">Photos</a>
+    <li class="list-group-item {{ Request::is('company/photos') ? 'active' : '' }}">
+        <a href="{{ route('company_photos') }}">Photos</a>
     </li>
-    <li class="list-group-item">
-        <a href="company-videos.html">Videos</a>
+    <li class="list-group-item {{ Request::is('company/videos') ? 'active' : '' }}">
+        <a href="{{ route('company_videos') }}">Videos</a>
     </li>
     <li class="list-group-item">
         <a href="company-applications.html">Candidate Applications</a>
     </li>
-    <li class="list-group-item">
-        <a href="company-edit-profile.html">Edit Profile</a>
+    <li class="list-group-item {{ Request::is('company/edit-profile') ? 'active' : '' }}">
+        <a href="{{ route('company_edit_profile') }}">Edit Profile</a>
+    </li>
+    <li class="list-group-item {{ Request::is('company/change-password') ? 'active' : '' }}">
+        <a href="{{ route('company_change_password') }}">Change Password</a>
     </li>
     <li class="list-group-item">
         <a href="{{ route('company_logout') }}">Logout</a>

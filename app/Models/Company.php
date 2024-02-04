@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Authenticatable
 {
     use HasFactory;
-    public $table = "companies";
+
 }

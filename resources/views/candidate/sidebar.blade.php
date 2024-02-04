@@ -1,6 +1,6 @@
 <ul class="list-group list-group-flush">
     <li class="list-group-item active">
-        <a href="{{ route('candidate_dashboard') }}">Dashboard</a>
+        <a href="{{ route('candidate/dashboard') }}">Dashboard</a>
     </li>
     <li class="list-group-item">
         <a href="candidate-applied-jobs.html">Applied Jobs</a>

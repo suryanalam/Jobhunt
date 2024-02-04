@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class WhyChooseItem extends Model
 {
     use HasFactory;
+    public $table = "why_choose_items";
 }

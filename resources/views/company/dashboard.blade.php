@@ -34,20 +34,20 @@
                     <div class="row box-items">
                         <div class="col-md-4">
                             <div class="box1">
-                                <h4>12</h4>
+                                <h4>{{ $open_jobs_count }}</h4>
                                 <p>Open Jobs</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="box2">
-                                <h4>3</h4>
-                                <p>Pending Jobs</p>
+                                <h4>{{ $featured_jobs_count }}</h4>
+                                <p>Featured Jobs</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="box3">
-                                <h4>5</h4>
-                                <p>Featured Jobs</p>
+                                <h4>NA</h4>
+                                <p>Pending Jobs</p>
                             </div>
                         </div>
                     </div>
@@ -60,55 +60,36 @@
                                     <th>SL</th>
                                     <th>Job Title</th>
                                     <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Location</th>
+                                    <th>Featured</th>
+                                    <th>Urgent</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Senior Laravel Developer</td>
-                                    <td>Web Development</td>
-                                    <td>
-                                        <span class="badge bg-success"
-                                            >Active</span
-                                        >
-                                    </td>
-                                    <td>
-                                        <a
-                                            href=""
-                                            class="btn btn-warning btn-sm text-white"
-                                            ><i class="fas fa-edit"></i
-                                        ></a>
-                                        <a
-                                            href=""
-                                            class="btn btn-danger btn-sm"
-                                            onClick="return confirm('Are you sure?');"
-                                            ><i class="fas fa-trash-alt"></i
-                                        ></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>UI/UX Designer</td>
-                                    <td>Web Design</td>
-                                    <td>
-                                        <span class="badge bg-danger"
-                                            >Pending</span
-                                        >
-                                    </td>
-                                    <td>
-                                        <a
-                                            href=""
-                                            class="btn btn-warning btn-sm text-white"
-                                            ><i class="fas fa-edit"></i
-                                        ></a>
-                                        <a
-                                            href=""
-                                            class="btn btn-danger btn-sm"
-                                            onClick="return confirm('Are you sure?');"
-                                            ><i class="fas fa-trash-alt"></i
-                                        ></a>
-                                    </td>
-                                </tr>
+                                @if ($recent_jobs == null)
+                                    <tr><td>No Jobs available</td></tr>
+                                @else
+                                    @foreach ($recent_jobs as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->title }}</td>
+                                            <td>{{ $item->rJobCategory->name }}</td>
+                                            <td>{{ $item->rJobLocation->name }}</td>
+                                            <td>
+                                                @if ($item->is_featured)
+                                                    <span class="badge bg-success">YES</span>
+                                                @else
+                                                    <span class="badge bg-danger">NO</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->is_urgent)
+                                                    <span class="badge bg-success">YES</span>
+                                                @else
+                                                    <span class="badge bg-danger">NO</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

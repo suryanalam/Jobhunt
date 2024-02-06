@@ -30,10 +30,15 @@
                         <div class="col-md-4">
                             <div class="box1">
                                 @if ($current_plan == null)
-                                    <span class="text-danger">No plan is available.</span>
+                                    <span class="text-danger">No plan is available</span>
                                 @else
                                     <h4>${{ $current_plan->rPackage->package_price }}</h4>
                                     <p>{{ $current_plan->rPackage->package_name }}</p>
+                                    <p>Expires on 
+                                        <span  class="text-danger">
+                                            {{  date('d M Y',strtotime($current_plan->expire_date)) }}
+                                        </span>
+                                    </p>
                                 @endif
                             </div>
                         </div>

@@ -96,6 +96,13 @@ Route::middleware(['company:company'])->group(function () {
     Route::get('company/make-payment',[CompanyController::class,'make_payment'])->name('company_make_payment');
     Route::get('company/orders',[CompanyController::class,'orders'])->name('company_orders');
 
+    Route::get('company/jobs',[CompanyController::class,'jobs'])->name('company_jobs');
+    Route::get('company/jobs/create',[CompanyController::class,'jobs_create'])->name('company_jobs_create');
+    Route::post('company/create-job-submit',[CompanyController::class,'jobs_create_submit'])->name('company_jobs_create_submit');
+    Route::get('company/jobs/edit/{id}',[CompanyController::class,'jobs_edit'])->name('company_jobs_edit');
+    Route::post('company/jobs/edit-job-submit',[CompanyController::class,'jobs_edit_submit'])->name('company_jobs_edit_submit');
+    Route::get('company/jobs/delete/{id}',[CompanyController::class,'jobs_delete'])->name('company_jobs_delete');
+
     Route::get('company/photos',[CompanyController::class,'photos'])->name('company_photos');
     Route::post('company/photos/submit',[CompanyController::class,'photo_submit'])->name('company_photo_submit');
     Route::get('company/photos/delete/{id}',[CompanyController::class,'photo_delete'])->name('company_photo_delete');

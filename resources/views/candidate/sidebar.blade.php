@@ -1,6 +1,6 @@
 <ul class="list-group list-group-flush">
-    <li class="list-group-item active">
-        <a href="{{ route('candidate/dashboard') }}">Dashboard</a>
+    <li class="list-group-item {{ Request::is('candidate/dashboard') ? 'active' : '' }}">
+        <a href="{{ route('candidate_dashboard') }}">Dashboard</a>
     </li>
     <li class="list-group-item">
         <a href="candidate-applied-jobs.html">Applied Jobs</a>
@@ -8,23 +8,26 @@
     <li class="list-group-item">
         <a href="candidate-bookmarked-jobs.html">Bookmarked Jobs</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-education.html">Education</a>
+    <li class="list-group-item {{ Request::is('candidate/education') ? 'active' : '' }}">
+        <a href="{{ route('candidate_education') }}">Education</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-skill.html">Skills</a>
+    <li class="list-group-item {{ Request::is('candidate/skill') ? 'active' : '' }}">
+        <a href="{{ route('candidate_skill') }}">Skills</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-experience.html">Work Experience</a>
+    <li class="list-group-item {{ Request::is('candidate/experience') ? 'active' : '' }}">
+        <a href="{{ route('candidate_experience') }}">Work Experience</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-award.html">Awards</a>
+    <li class="list-group-item {{ Request::is('candidate/award') ? 'active' : '' }}">
+        <a href="{{ route('candidate_award') }}">Awards</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-edit-profile.html">Edit Profile</a>
+    <li class="list-group-item {{ Request::is('candidate/profile/edit') ? 'active' : '' }}">
+        <a href="{{ route('candidate_profile_edit') }}">Edit Profile</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-resume.html">Resume Upload</a>
+    <li class="list-group-item {{ Request::is('candidate/change-password') ? 'active' : '' }}">
+        <a href="{{ route('candidate_change_password') }}">Change Password</a>
+    </li>
+    <li class="list-group-item {{ Request::is('candidate/resume') ? 'active' : '' }}">
+        <a href="{{ route('candidate_resume') }}">Resume Upload</a>
     </li>
     <li class="list-group-item">
         <a href="{{ route('candidate_logout') }}">Logout</a>

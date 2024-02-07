@@ -1,8 +1,5 @@
 @extends('front.layout.app')
 
-{{-- @section('seo-title', "$faq_page_item->title")
-@section('seo-meta-description', "$faq_page_item->meta_description") --}}
-
 @section('main_content')
     <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
         <div class="bg"></div>
@@ -10,7 +7,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Make Payment</h2>
-                    {{-- <h2>{{ $faq_page_item->heading }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -34,9 +30,9 @@
                                 @else
                                     <h4>${{ $current_plan->rPackage->package_price }}</h4>
                                     <p>{{ $current_plan->rPackage->package_name }}</p>
-                                    <p>Expires on 
-                                        <span  class="text-danger">
-                                            {{  date('d M Y',strtotime($current_plan->expire_date)) }}
+                                    <p> Expires on
+                                        <span class="text-danger">
+                                            {{ date('d M Y', strtotime($current_plan->expire_date)) }}
                                         </span>
                                     </p>
                                 @endif
@@ -53,7 +49,7 @@
                                     <td class="w-200">
                                         <select name="package_id" class="form-control select2">
                                             @foreach ($packages as $item)
-                                                <option value="{{  $item->id }}">
+                                                <option value="{{ $item->id }}">
                                                     {{ $item->package_name }}
                                                     (${{ $item->package_price }})
                                                 </option>
@@ -72,7 +68,7 @@
                                     <td>
                                         <select name="package_id" class="form-control select2">
                                             @foreach ($packages as $item)
-                                                <option value="{{  $item->id }}">
+                                                <option value="{{ $item->id }}">
                                                     {{ $item->package_name }}
                                                     (${{ $item->package_price }})
                                                 </option>

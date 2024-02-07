@@ -1,10 +1,6 @@
 @extends('front.layout.app')
 
-{{-- @section('seo-title',"$faq_page_item->title")
-@section('seo-meta-description',"$faq_page_item->meta_description") --}}
-
 @section('main_content')
-
     <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
         <div class="bg"></div>
         <div class="container">
@@ -72,11 +68,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a
-                                            href="job.html"
-                                            class="btn btn-primary btn-sm text-white"
-                                            ><i class="fas fa-eye"></i
-                                        ></a>
+                                        <a href="job.html" class="btn btn-primary btn-sm text-white"><i
+                                                class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -89,11 +82,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a
-                                            href="job.html"
-                                            class="btn btn-primary btn-sm text-white"
-                                            ><i class="fas fa-eye"></i
-                                        ></a>
+                                        <a href="job.html" class="btn btn-primary btn-sm text-white"><i
+                                                class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -106,11 +96,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a
-                                            href="job.html"
-                                            class="btn btn-primary btn-sm text-white"
-                                            ><i class="fas fa-eye"></i
-                                        ></a>
+                                        <a href="job.html" class="btn btn-primary btn-sm text-white"><i
+                                                class="fas fa-eye"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -120,5 +107,4 @@
             </div>
         </div>
     </div>
-
 @endsection

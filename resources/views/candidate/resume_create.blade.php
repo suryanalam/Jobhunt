@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Change Password</h2>
+                    <h2>Add New Award</h2>
                 </div>
             </div>
         </div>
@@ -17,30 +17,32 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="card">
-                        @include('company.sidebar')
+                        @include('candidate.sidebar')
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                    <form action="{{ route('company_change_password_update') }}" method="post">
+                    <a href="{{ route('candidate_resume') }}" class="btn btn-primary btn-sm mb-2">
+                        View Resumes
+                    </a>
+                    <form action="{{ route('candidate_resume_store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-md-8 mb-3">
-                                <label for="">Password*</label>
+                            <div class="col-md-12 mb-3">
+                                <label for="">Name *</label>
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control" />
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" />
                                 </div>
                             </div>
-                            <div class="col-md-8 mb-3">
-                                <label for="">Confirm Password *</label>
+                            <div class="col-md-12 mb-3">
+                                <label for="">File *</label>
                                 <div class="form-group">
-                                    <input type="password" name="confirm_password" class="form-control" />
+                                    <input type="file" name="file" class="form-control" value="{{ old('file') }}" />
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-primary" value="Update" />
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Submit" />
+                                </div>
                             </div>
                         </div>
                     </form>

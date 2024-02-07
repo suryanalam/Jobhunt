@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Dashboard</h2>
+                    <h2>All Jobs</h2>
                 </div>
             </div>
         </div>
@@ -20,35 +20,8 @@
                         @include('company.sidebar')
                     </div>
                 </div>
+
                 <div class="col-lg-9 col-md-12">
-                    <h3>Hello, {{ Auth::guard('company')->user()->person_name }}
-                        ({{ Auth::guard('company')->user()->company_name }})
-                    </h3>
-
-                    <p>See all the statistics at a glance:</p>
-
-                    <div class="row box-items">
-                        <div class="col-md-4">
-                            <div class="box1">
-                                <h4>{{ $open_jobs_count }}</h4>
-                                <p>Open Jobs</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box2">
-                                <h4>{{ $featured_jobs_count }}</h4>
-                                <p>Featured Jobs</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="box3">
-                                <h4>NA</h4>
-                                <p>Pending Jobs</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-5">Recent Jobs</h3>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
@@ -59,8 +32,9 @@
                                     <th>Location</th>
                                     <th>Featured</th>
                                     <th>Urgent</th>
+                                    <th>Action</th>
                                 </tr>
-                                @foreach ($recent_jobs as $item)
+                                @foreach ($jobs as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->title }}</td>
@@ -79,6 +53,16 @@
                                             @else
                                                 <span class="badge bg-danger">NO</span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('company_job_edit', $item->id) }}"
+                                                class="btn btn-warning btn-sm text-white">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ route('company_job_delete', $item->id) }}"
+                                                class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

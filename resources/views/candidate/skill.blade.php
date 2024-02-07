@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Orders</h2>
+                    <h2>Skills</h2>
                 </div>
             </div>
         </div>
@@ -17,36 +17,34 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="card">
-                        @include('company.sidebar')
+                        @include('candidate.sidebar')
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
+                    <a href="{{ route('candidate_skill_create') }}" class="btn btn-primary btn-sm mb-2">
+                        <i class="fas fa-plus"></i> Add Item
+                    </a>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Order No</th>
-                                    <th>Package Name</th>
-                                    <th>Package Price</th>
-                                    <th>Order Date</th>
-                                    <th>Expire Date</th>
-                                    <th>Payment Method</th>
+                                    <th>Skill Name</th>
+                                    <th>Percentage</th>
+                                    <th class="w-100">Action</th>
                                 </tr>
-                                @foreach ($orders as $item)
+                                @foreach ($skills as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->order_no }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->percentage }}</td>
                                         <td>
-                                            {{ $item->rPackage->package_name }}
-                                            @if ($item->currently_active == '1')
-                                                <span class="badge bg-success">Active</span>
-                                            @endif
+                                            <a href="{{ route('candidate_skill_edit', $item->id) }}"
+                                                class="btn btn-warning btn-sm text-white"><i class="fas fa-edit"></i></a>
+                                            <a href="{{ route('candidate_skill_delete', $item->id) }}"
+                                                class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i
+                                                    class="fas fa-trash-alt"></i></a>
                                         </td>
-                                        <td>${{ $item->rPackage->package_price }}</td>
-                                        <td>{{ $item->start_date }}</td>
-                                        <td>{{ $item->expire_date }}</td>
-                                        <td>{{ $item->payment_method }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

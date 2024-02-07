@@ -1,8 +1,5 @@
 @extends('front.layout.app')
 
-{{-- @section('seo-title', "$faq_page_item->title")
-@section('seo-meta-description', "$faq_page_item->meta_description") --}}
-
 @section('main_content')
     <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
         <div class="bg"></div>
@@ -10,7 +7,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Photos</h2>
-                    {{-- <h2>{{ $faq_page_item->heading }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -38,7 +34,7 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary btn-sm" value="Submit"  />
+                                <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
                             </div>
                         </div>
                     </form>
@@ -64,12 +60,12 @@
                                             <div class="bg"></div>
                                         </a>
                                     </div>
-                                    <a href="{{ route('company_photo_delete',$item->id) }}" class="btn btn-danger mb-3" onClick="return confirm('Are you sure?');">Delete</a>
+                                    <a href="{{ route('company_photo_delete', $item->id) }}" class="btn btn-danger mb-3"
+                                        onClick="return confirm('Are you sure?');">Delete</a>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

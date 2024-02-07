@@ -191,22 +191,22 @@ class CompanyController extends Controller
         return redirect()->route('company_make_payment')->with('error', "Payment is cancelled!");
     }
 
-    public function jobs(){
+    public function job(){
         $jobs = Job::where('company_id',Auth::guard('company')->user()->id)->orderBy('id','desc')->get();
-        return view('company.jobs',compact('jobs'));
+        return view('company.job',compact('jobs'));
     }
 
-    public function jobs_create(){
+    public function job_create(){
         $job_categories = JobCategory::orderBy('name','asc')->get();
         $job_experiences = JobExperience:: get();
         $job_genders = JobGender::get();
         $job_locations = JobLocation::orderBy('name','asc')->get();       
         $job_salary_ranges = JobSalaryRange::get();
         $job_types = JobType::orderBy('name','asc')->get();
-        return view('company.jobs_create',compact('job_categories','job_experiences','job_genders','job_locations','job_salary_ranges','job_types'));
+        return view('company.job_create',compact('job_categories','job_experiences','job_genders','job_locations','job_salary_ranges','job_types'));
     }
 
-    public function jobs_create_submit(Request $request){
+    public function job_store(Request $request){
 
         $request->validate([
             'title'=>'required',
@@ -221,21 +221,25 @@ class CompanyController extends Controller
             'job_salary_range_id'=>'required',
         ]);
 
-        $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
-        $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
-
+        // check company have any current plan to post jobs:
         $order = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        
+
         if(!$order){
-            return redirect()->back()->with('error','Buy a package to access the post jobs');
+            return redirect()->back()->with('error','Buy a package to post jobs');
         }
 
         $package = Package::find($order->package_id);
+        $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
+        $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
 
-        if($no_of_jobs_posted >= $package->total_allowed_jobs){
-            return redirect()->back()->with('error','Upgrade the current package to post more jobs');
+        // Check the job posting limit for the current plan except **gold** package
+        if($package->package_name != "Gold"){
+            if($no_of_jobs_posted >= $package->total_allowed_jobs){
+                return redirect()->back()->with('error','Upgrade the current package to post more jobs');
+            }
         }
 
+        // Check for the number of featured job posts
         if($request->is_featured == 1){
             if($no_of_featured_jobs_posted >= $package->total_allowed_featured_jobs){
                 return redirect()->back()->with('error','Upgrade the current package to add featured option for more jobs');
@@ -263,11 +267,11 @@ class CompanyController extends Controller
         $obj->map_code = $request->map_code;
         $obj->save();
 
-        return redirect()->back()->with('success','Job added successfully');
+        return redirect()->back()->with('success','Job is added successfully');
 
     }
 
-    public function jobs_edit($id){
+    public function job_edit($id){
         $job = Job::where('id',$id)->first();
 
         $job_categories = JobCategory::orderBy('name','asc')->get();
@@ -277,10 +281,10 @@ class CompanyController extends Controller
         $job_salary_ranges = JobSalaryRange::get();
         $job_types = JobType::orderBy('name','asc')->get();
 
-        return view('company.jobs_edit',compact('job','job_categories','job_experiences','job_genders','job_locations','job_salary_ranges','job_types'));
+        return view('company.job_edit',compact('job','job_categories','job_experiences','job_genders','job_locations','job_salary_ranges','job_types'));
     }
 
-    public function jobs_edit_submit(Request $request){
+    public function job_update(Request $request){
 
         $request->validate([
             'title'=>'required',
@@ -335,12 +339,12 @@ class CompanyController extends Controller
         $obj->map_code = $request->map_code;
         $obj->update();
 
-        return redirect()->route('company_jobs')->with('success','job updated succesfully');
+        return redirect()->route('company_job')->with('success','Job is updated succesfully');
     }
 
-    public function jobs_delete($id){
+    public function job_delete($id){
         Job::where('id',$id)->delete();
-        return redirect()->back()->with('success','job deleted succesfully');
+        return redirect()->back()->with('success','Job is deleted succesfully');
     }
 
     public function orders(){
@@ -455,15 +459,15 @@ class CompanyController extends Controller
         return redirect()->back()->with('success','Video deleted successfully');
     }
 
-    public function edit_profile(){
+    public function profile_edit(){
         $company_locations = CompanyLocation::orderBy('name','asc')->get();
         $company_industries = CompanyIndustry::orderBy('name','asc')->get();
         $company_sizes = CompanySize::get();
 
-        return view('company.edit_profile', compact('company_locations','company_industries','company_sizes'));
+        return view('company.profile_edit', compact('company_locations','company_industries','company_sizes'));
     }
 
-    public function edit_profile_update(Request $request){
+    public function profile_update(Request $request){
 
         $obj = Company::where('id',Auth::guard('company')->user()->id)->first();
         

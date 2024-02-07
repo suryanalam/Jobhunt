@@ -17,11 +17,11 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="card">
-                        @include('company.sidebar')
+                        @include('candidate.sidebar')
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                    <form action="{{ route('company_change_password_update') }}" method="post">
+                    <form action="{{ route('candidate_change_password_update') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-8 mb-3">

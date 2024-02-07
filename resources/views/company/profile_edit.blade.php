@@ -1,8 +1,5 @@
 @extends('front.layout.app')
 
-{{-- @section('seo-title', "$faq_page_item->title")
-@section('seo-meta-description', "$faq_page_item->meta_description") --}}
-
 @section('main_content')
     <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
         <div class="bg"></div>
@@ -10,7 +7,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>Edit Profile</h2>
-                    {{-- <h2>{{ $faq_page_item->heading }}</h2> --}}
                 </div>
             </div>
         </div>
@@ -25,16 +21,18 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                    <form action="{{ route('company_edit_profile_update') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('company_profile_update') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="existing-logo">Existing Logo</label>
                                 <div class="form-group">
-                                    @if (Auth::guard('company')->user()->logo == null || Auth::guard('company')->user()->logo == "")
-                                    <img src="{{ asset("uploads/company_default_logo.png") }}" alt="" class="logo" name="existing-logo" />
+                                    @if (Auth::guard('company')->user()->logo == null || Auth::guard('company')->user()->logo == '')
+                                        <img src="{{ asset('uploads/company_default_logo.png') }}" alt=""
+                                            class="logo" name="existing-logo" />
                                     @endif
-                                    <img src="{{ asset("uploads/".Auth::guard('company')->user()->logo) }}" alt="" class="logo" name="existing-logo" />
+                                    <img src="{{ asset('uploads/' . Auth::guard('company')->user()->logo) }}" alt=""
+                                        class="logo" name="existing-logo" />
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
@@ -46,37 +44,43 @@
                             <div class="col-md-6 mb-3">
                                 <label for="">Company Name *</label>
                                 <div class="form-group">
-                                    <input type="text" name="company_name" class="form-control" value="{{ Auth::guard('company')->user()->company_name }}" />
+                                    <input type="text" name="company_name" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->company_name }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Contact Person *</label>
                                 <div class="form-group">
-                                    <input type="text" name="person_name" class="form-control" value="{{ Auth::guard('company')->user()->person_name }}" />
+                                    <input type="text" name="person_name" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->person_name }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Username *</label>
                                 <div class="form-group">
-                                    <input type="text" name="username" class="form-control" value="{{ Auth::guard('company')->user()->username }}" />
+                                    <input type="text" name="username" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->username }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Email *</label>
                                 <div class="form-group">
-                                    <input type="text" name="email" class="form-control" value="{{ Auth::guard('company')->user()->email }}" />
+                                    <input type="text" name="email" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->email }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Phone *</label>
                                 <div class="form-group">
-                                    <input type="text" name="phone" class="form-control" value="{{ Auth::guard('company')->user()->phone }}" />
+                                    <input type="text" name="phone" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->phone }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Address *</label>
                                 <div class="form-group">
-                                    <input type="text" name="address" class="form-control" value="{{ Auth::guard('company')->user()->address }}" />
+                                    <input type="text" name="address" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->address }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -84,9 +88,8 @@
                                 <div class="form-group">
                                     <select name="company_location_id" class="form-control select2">
                                         @foreach ($company_locations as $item)
-                                            <option value="{{ $item->id }}" 
-                                                @if ($item->id == Auth::guard('company')->user()->company_location_id) selected @endif
-                                            >
+                                            <option value="{{ $item->id }}"
+                                                @if ($item->id == Auth::guard('company')->user()->company_location_id) selected @endif>
                                                 {{ $item->name }}</option>
                                         @endforeach
                                     </select>
@@ -98,8 +101,7 @@
                                     <select name="company_industry_id" class="form-control select2">
                                         @foreach ($company_industries as $item)
                                             <option value="{{ $item->id }}"
-                                                @if ($item->id == Auth::guard('company')->user()->company_industry_id) selected @endif
-                                            >
+                                                @if ($item->id == Auth::guard('company')->user()->company_industry_id) selected @endif>
                                                 {{ $item->name }}</option>
                                         @endforeach
                                     </select>
@@ -111,8 +113,7 @@
                                     <select name="company_size_id" class="form-control select2">
                                         @foreach ($company_sizes as $item)
                                             <option value="{{ $item->id }}"
-                                                @if ($item->id == Auth::guard('company')->user()->company_size_id) selected @endif
-                                            >
+                                                @if ($item->id == Auth::guard('company')->user()->company_size_id) selected @endif>
                                                 {{ $item->name }}</option>
                                         @endforeach
                                     </select>
@@ -125,9 +126,9 @@
                                     <select name="founded_on" class="form-control select2">
                                         @for ($i = 1900; $i <= date('Y'); $i++)
                                             <option value="{{ $i }}"
-                                                @if ($i == Auth::guard('company')->user()->founded_on) selected @endif
-                                            >
-                                                {{ $i }}</option>
+                                                {{ $i == Auth::guard('company')->user()->founded_on ? 'selected' : '' }}>
+                                                {{ $i }}
+                                            </option>
                                         @endfor
                                     </select>
                                 </div>
@@ -137,60 +138,68 @@
                             <div class="col-md-6 mb-3">
                                 <label for="">Website</label>
                                 <div class="form-group">
-                                    <input type="text" name="website" class="form-control" value="{{ Auth::guard('company')->user()->website }}" />
+                                    <input type="text" name="website" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->website }}" />
                                 </div>
                             </div>
 
                             <div class="col-md-12 mb-3">
                                 <label for="">About Company</label>
                                 <textarea name="description" class="form-control editor" cols="30" rows="10">
-                                    {!! Auth::guard('company')->user()->description !!}
-                                </textarea>
+                                {!! Auth::guard('company')->user()->description !!}
+                            </textarea>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Monday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_mon" class="form-control" value="{{ Auth::guard('company')->user()->oh_mon }}" />
+                                    <input type="text" name="oh_mon" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_mon }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Tuesday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_tue" class="form-control" value="{{ Auth::guard('company')->user()->oh_tue }}" />
+                                    <input type="text" name="oh_tue" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_tue }}" />
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Wednesday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_wed" class="form-control" value="{{ Auth::guard('company')->user()->oh_wed }}" />
+                                    <input type="text" name="oh_wed" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_wed }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Thursday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_thu" class="form-control" value="{{ Auth::guard('company')->user()->oh_thu }}" />
+                                    <input type="text" name="oh_thu" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_thu }}" />
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Friday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_fri" class="form-control" value="{{ Auth::guard('company')->user()->oh_fri }}" />
+                                    <input type="text" name="oh_fri" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_fri }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Saturday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_sat" class="form-control" value="{{ Auth::guard('company')->user()->oh_sat }}" />
+                                    <input type="text" name="oh_sat" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_sat }}" />
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Opening Hour (Sunday)</label>
                                 <div class="form-group">
-                                    <input type="text" name="oh_sun" class="form-control" value="{{ Auth::guard('company')->user()->oh_sun }}" />
+                                    <input type="text" name="oh_sun" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->oh_sun }}" />
                                 </div>
                             </div>
 
@@ -198,34 +207,38 @@
                                 <label for="">Location Map (Google Map Code)</label>
                                 <div class="form-group">
                                     <textarea name="map_code" class="form-control h-150" cols="30" rows="10">
-                                        {!! Auth::guard('company')->user()->map_code !!}
-                                    </textarea>
+                                    {!! Auth::guard('company')->user()->map_code !!}
+                                </textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Facebook</label>
                                 <div class="form-group">
-                                    <input type="text" name="facebook" class="form-control" value="{{ Auth::guard('company')->user()->facebook }}" />
+                                    <input type="text" name="facebook" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->facebook }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Twitter</label>
                                 <div class="form-group">
-                                    <input type="text" name="twitter" class="form-control"value="{{ Auth::guard('company')->user()->twitter }}" />
+                                    <input type="text" name="twitter"
+                                        class="form-control"value="{{ Auth::guard('company')->user()->twitter }}" />
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Linkedin</label>
                                 <div class="form-group">
-                                    <input type="text" name="linkedin" class="form-control" value="{{ Auth::guard('company')->user()->linkedin }}" />
+                                    <input type="text" name="linkedin" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->linkedin }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Instagram</label>
                                 <div class="form-group">
-                                    <input type="text" name="instagram" class="form-control" value="{{ Auth::guard('company')->user()->instagram }}" />
+                                    <input type="text" name="instagram" class="form-control"
+                                        value="{{ Auth::guard('company')->user()->instagram }}" />
                                 </div>
                             </div>
                         </div>

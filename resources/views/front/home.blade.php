@@ -17,18 +17,18 @@
                             </p>
                         </div>
                         <div class="search-section">
-                            <form action="jobs.html" method="post">
+                            <form action="{{ route('job_listing') }}" method="get">
                                 <div class="inner">
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <input type="text" name="" class="form-control"
+                                                <input type="text" name="title" class="form-control"
                                                     placeholder="{{ $page_home_data->job_title }}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
+                                                <select name="location" class="form-select select2">
                                                     <option value="">
                                                         {{ $page_home_data->job_location }}
                                                     </option>
@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
+                                                <select name="category" class="form-select select2">
                                                     <option value="">
                                                         {{ $page_home_data->job_category }}
                                                     </option>
@@ -91,8 +91,8 @@
                                     <i class="{{ $item->icon }}"></i>
                                 </div>
                                 <h3>{{ $item->name }}</h3>
-                                <p>(5 Open Positions)</p>
-                                <a href=""></a>
+                                <p>({{ $item->rJob->count() }} Open Positions)</p>
+                                <a href="{{ url("job-listing?category=$item->id") }}"></a>
                             </div>
                         </div>
                     @endforeach
@@ -155,179 +155,60 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo1.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">Software Engineer, Google</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Web Development</div>
-                                    <div class="location">United States</div>
+                    @foreach ($featured_jobs as $item)
+                        <div class="col-lg-6 col-md-12">
+                            <div class="item d-flex justify-content-start">
+                                <div class="logo">
+                                    @if ($item->rCompany->logo == null || $item->rCompany->logo == '')
+                                        <img src="{{ asset('uploads/company_default_logo.png') }}" alt=""
+                                            class="logo" name="company-logo" />
+                                    @else
+                                        <img src="{{ asset('uploads/' . $item->rCompany->logo) }}" alt=""
+                                            class="logo" name="company-logo" />
+                                    @endif
                                 </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">3 days ago</div>
-                                    <div class="budget">$300-$600</div>
-                                    <div class="expired">Expired</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Full Time</div>
-                                    <div class="urgent">Urgent</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark active"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo2.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">Web Designer, Amplify</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Web Development</div>
-                                    <div class="location">United States</div>
-                                </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">1 day ago</div>
-                                    <div class="budget">$1000</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Part Time</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark"></i></a>
+                                <div class="text">
+                                    <h3><a href="{{ route('job_detail', $item->id) }}">{{ $item->title }},
+                                            {{ $item->rCompany->company_name }}</a></h3>
+                                    <div class="detail-1 d-flex justify-content-start">
+                                        <div class="category">{{ $item->rJobCategory->name }}</div>
+                                        <div class="location">{{ $item->rJobLocation->name }}</div>
+                                    </div>
+                                    <div class="detail-2 d-flex justify-content-start">
+                                        <div class="date">{{ $item->created_at->diffForHumans() }}</div>
+                                        <div class="budget">{{ $item->rJobSalaryRange->name }}</div>
+                                        {!! date('Y-m-d') > $item->deadline ? "<div class='expired'>Expired </div>" : null !!}
+                                    </div>
+                                    <div class="special d-flex justify-content-start">
+                                        <div class="type">{{ $item->rJobType->name }}</div>
+                                        {!! $item->is_featured == '1' ? "<div class='featured'>Featured</div>" : null !!}
+                                        {!! $item->is_urgent == '1' ? "<div class='urgent'>Urgent</div>" : null !!}
+                                    </div>
+                                    @if (Auth::guard('candidate')->check())
+                                        @php
+                                            $count = \App\Models\CandidateBookmark::where('candidate_id', Auth::guard('candidate')->user()->id)
+                                                ->where('job_id', $item->id)->count(); 
+                                            if ($count) {
+                                                $bookmark_status = "active";;
+                                            }else{
+                                                $bookmark_status = "";
+                                            }
+                                        @endphp
+                                        <div class="bookmark">
+                                            <a href="{{ route('candidate_bookmark_add', $item->id) }}">
+                                                <i class="fas fa-bookmark {{ $bookmark_status }}"></i>
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo3.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">Laravel Developer, Gimpo</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Web Development</div>
-                                    <div class="location">Canada</div>
-                                </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">2 days ago</div>
-                                    <div class="budget">$1000-$3000</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Full Time</div>
-                                    <div class="urgent">Urgent</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo4.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">PHP Developer, Kite Solution</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Web Development</div>
-                                    <div class="location">Australia</div>
-                                </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">7 hours ago</div>
-                                    <div class="budget">$1800</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Full Time</div>
-                                    <div class="urgent">Urgent</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo5.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">Junior Accountant, ABC Media</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Marketing</div>
-                                    <div class="location">Canada</div>
-                                </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">2 hours ago</div>
-                                    <div class="budget">$400</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Part Time</div>
-                                    <div class="urgent">Urgent</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="item d-flex justify-content-start">
-                            <div class="logo">
-                                <img src="{{ asset('uploads/logo6.png') }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h3>
-                                    <a href="job.html">Sales Manager, Tingshu Limited</a>
-                                </h3>
-                                <div class="detail-1 d-flex justify-content-start">
-                                    <div class="category">Marketing</div>
-                                    <div class="location">Canada</div>
-                                </div>
-                                <div class="detail-2 d-flex justify-content-start">
-                                    <div class="date">9 hours ago</div>
-                                    <div class="budget">$600-$800</div>
-                                </div>
-                                <div class="special d-flex justify-content-start">
-                                    <div class="featured">Featured</div>
-                                    <div class="type">Full Time</div>
-                                    <div class="urgent">Urgent</div>
-                                </div>
-                                <div class="bookmark">
-                                    <a href=""><i class="fas fa-bookmark"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="all">
-                            <a href="jobs.html" class="btn btn-primary">See All Jobs</a>
+                            <a href="{{ route('job_listing') }}" class="btn btn-primary">See All Jobs</a>
                         </div>
                     </div>
                 </div>
@@ -336,77 +217,77 @@
     @endif
 
     @if ($page_home_data->testimonial_status == 'Show')
-    <div class="testimonial" style="background-image: url({{ asset('uploads/'.$page_home_data->testimonial_background) }})">
-        <div class="bg"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="main-header">{{ $page_home_data->testimonial_heading }}</h2>
+        <div class="testimonial"
+            style="background-image: url({{ asset('uploads/' . $page_home_data->testimonial_background) }})">
+            <div class="bg"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="main-header">{{ $page_home_data->testimonial_heading }}</h2>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="testimonial-carousel owl-carousel">
-                        @foreach ($testimonials as $item)
-                            <div class="item">
-                                <div class="photo">
-                                    <img src="{{ asset('uploads/' . $item->photo) }}" alt="" />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="testimonial-carousel owl-carousel">
+                            @foreach ($testimonials as $item)
+                                <div class="item">
+                                    <div class="photo">
+                                        <img src="{{ asset('uploads/' . $item->photo) }}" alt="" />
+                                    </div>
+                                    <div class="text">
+                                        <h4>{{ $item->name }}</h4>
+                                        <p>{{ $item->designation }}</p>
+                                    </div>
+                                    <div class="description">
+                                        <p>
+                                            {!! nl2br($item->comment) !!}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="text">
-                                    <h4>{{ $item->name }}</h4>
-                                    <p>{{ $item->designation }}</p>
-                                </div>
-                                <div class="description">
-                                    <p>
-                                        {!! nl2br($item->comment) !!}
-                                    </p>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
     @if ($page_home_data->blog_status == 'Show')
-    <div class="blog">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="heading">
-                        <h2>{{ $page_home_data->blog_heading }}</h2>
-                        <p>
-                            {{ $page_home_data->blog_subheading }}
-                        </p>
+        <div class="blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h2>{{ $page_home_data->blog_heading }}</h2>
+                            <p>
+                                {{ $page_home_data->blog_subheading }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                @foreach ($posts as $post)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item">
-                            <div class="photo">
-                                <img src="{{ asset("uploads/$post->photo") }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h2>
-                                    <a href="{{ route('post',$post->slug) }}">{{ $post->title }}</a>
-                                </h2>
-                                <div class="short-des">
-                                    <p>{{ $post->short_description }}</p>
+                <div class="row">
+                    @foreach ($posts as $post)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="item">
+                                <div class="photo">
+                                    <img src="{{ asset("uploads/$post->photo") }}" alt="" />
                                 </div>
-                                <div class="button">
-                                    <a href="{{ route('post',$post->slug) }}" class="btn btn-primary">Read More</a>
+                                <div class="text">
+                                    <h2>
+                                        <a href="{{ route('post', $post->slug) }}">{{ $post->title }}</a>
+                                    </h2>
+                                    <div class="short-des">
+                                        <p>{{ $post->short_description }}</p>
+                                    </div>
+                                    <div class="button">
+                                        <a href="{{ route('post', $post->slug) }}" class="btn btn-primary">Read More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
     @endif
-
 @endsection

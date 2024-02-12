@@ -2,18 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
-/* Frontend */
+/* Front */
 use App\Http\Controllers\Front\SignupController;
 use App\Http\Controllers\Front\LoginController;
 use App\Http\Controllers\Front\ForgetPasswordController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\JobCategoryController;
+use App\Http\Controllers\Front\JobListingController;
+use App\Http\Controllers\Front\CompanyListingController;
+use App\Http\Controllers\Front\PricingController;
+use App\Http\Controllers\Front\FaqController;
 use App\Http\Controllers\Front\BlogController;
 use App\Http\Controllers\Front\ContactController;
-use App\Http\Controllers\Front\FaqController;
 use App\Http\Controllers\Front\TermsController;
 use App\Http\Controllers\Front\PrivacyController;
-use App\Http\Controllers\Front\PricingController;
 
 /* Company */
 use App\Http\Controllers\Company\CompanyController;
@@ -53,33 +55,31 @@ use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminPackageController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/',[HomeController::class, 'index'])->name('home');
+/* Front */
 Route::get('signup',[SignupController::class, 'index'])->name('signup');
 Route::get('login',[LoginController::class, 'index'])->name('login');
 
-Route::get('job-categories',[JobCategoryController::class, 'categories'])->name('job_categories');
+Route::get('/',[HomeController::class, 'index'])->name('home');
+
+Route::get('job-listing',[JobListingController::class, 'index'])->name('job_listing');
+Route::get('job/{id}',[JobListingController::class, 'detail'])->name('job_detail');
+Route::get('job-categories',[JobCategoryController::class, 'index'])->name('job_categories');
+Route::post('job/enquery',[JobListingController::class, 'job_enquery'])->name('job_enquery');
+
+Route::get('company-listing',[CompanyListingController::class, 'index'])->name('company_listing');
+Route::get('company-detail/{id}',[CompanyListingController::class, 'detail'])->name('company_detail');
+Route::post('company/enquery',[CompanyListingController::class, 'company_enquery'])->name('company_enquery');
+
+Route::get('pricing',[PricingController::class, 'index'])->name('pricing');
+Route::get('faq',[FaqController::class, 'index'])->name('faq');
 Route::get('blog',[BlogController::class, 'index'])->name('blog');
 Route::get('post/{slug}',[BlogController::class, 'detail'])->name('post');
-Route::get('faq',[FaqController::class, 'index'])->name('faq');
-Route::get('pricing',[PricingController::class, 'index'])->name('pricing');
-Route::get('terms-of-use',[TermsController::class, 'index'])->name('terms');
-Route::get('privacy-policy',[PrivacyController::class, 'index'])->name('privacy');
 Route::get('contact',[ContactController::class, 'index'])->name('contact');
 Route::post('contact/submit',[ContactController::class, 'submit'])->name('contact_submit');
+Route::get('terms-of-use',[TermsController::class, 'index'])->name('terms');
+Route::get('privacy-policy',[PrivacyController::class, 'index'])->name('privacy');
 
 /* Company */
-
 Route::post('company/signup',[SignupController::class, 'company_signup'])->name('company_signup');
 Route::get('company/signup-verify/{token}/{email}',[SignupController::class, 'company_signup_verify'])->name('company_signup_verify');
 Route::post('company/login',[LoginController::class, 'company_login'])->name('company_login');
@@ -183,6 +183,15 @@ Route::middleware(['candidate:candidate'])->group(function () {
 
     Route::get('candidate/change-password',[CandidateController::class,'change_password'])->name('candidate_change_password');
     Route::post('candidate/change-password/update',[CandidateController::class,'change_password_update'])->name('candidate_change_password_update');
+
+    Route::get('candidate/bookmarked-jobs',[CandidateController::class,'bookmarked_jobs'])->name('candidate_bookmarked_jobs');
+    Route::get('candidate/bookmark-add/{id}',[CandidateController::class,'bookmark_add'])->name('candidate_bookmark_add');
+    Route::get('candidate/bookmark-delete/{id}',[CandidateController::class,'bookmark_delete'])->name('candidate_bookmark_delete');
+
+    Route::get('candidate/job-apply/{id}',[CandidateController::class,'job_apply'])->name('candidate_job_apply');
+    Route::post('candidate/job-apply-submit',[CandidateController::class,'job_apply_submit'])->name('candidate_job_apply_submit');
+
+    Route::get('candidate/applied-jobs',[CandidateController::class,'applied_jobs'])->name('candidate_applied_jobs');
 
     Route::get('candidate/logout',[LoginController::class, 'candidate_logout'])->name('candidate_logout');
 });

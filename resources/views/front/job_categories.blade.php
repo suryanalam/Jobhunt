@@ -25,8 +25,8 @@
                                 <i class="{{ $item->icon }}"></i>
                             </div>
                             <h3>{{ $item->name }}</h3>
-                            <p>(5 Open Positions)</p>
-                            <a href=""></a>
+                            <p>({{ $item->rJob->count() }} Open Positions)</p>
+                            <a href="{{ url("job-listing?category=$item->id") }}"></a>
                         </div>
                     </div>
                 @endforeach

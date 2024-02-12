@@ -2,11 +2,11 @@
     <li class="list-group-item {{ Request::is('candidate/dashboard') ? 'active' : '' }}">
         <a href="{{ route('candidate_dashboard') }}">Dashboard</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-applied-jobs.html">Applied Jobs</a>
+    <li class="list-group-item {{ Request::is('candidate/applied-jobs') ? 'active' : '' }}">
+        <a href="{{ route('candidate_applied_jobs') }}">Applied Jobs</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-bookmarked-jobs.html">Bookmarked Jobs</a>
+    <li class="list-group-item {{ Request::is('candidate/bookmarked-jobs') ? 'active' : '' }}">
+        <a href="{{ route('candidate_bookmarked_jobs') }}">Bookmarked Jobs</a>
     </li>
     <li class="list-group-item {{ Request::is('candidate/education') ? 'active' : '' }}">
         <a href="{{ route('candidate_education') }}">Education</a>

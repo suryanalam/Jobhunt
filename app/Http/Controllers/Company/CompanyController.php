@@ -197,6 +197,26 @@ class CompanyController extends Controller
     }
 
     public function job_create(){
+
+        // check company have any current plan to post jobs:
+        $order = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
+
+        if(!$order){
+            return redirect()->back()->with('error','Buy a package to post jobs');
+        }
+
+        $package = Package::find($order->package_id);
+        
+        $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
+        $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
+
+        // Check the job posting limit for the current plan except **gold** package
+        if($package->package_name != "Gold"){
+            if($no_of_jobs_posted >= $package->total_allowed_jobs){
+                return redirect()->back()->with('error','Upgrade the current package to post more jobs');
+            }
+        }
+
         $job_categories = JobCategory::orderBy('name','asc')->get();
         $job_experiences = JobExperience:: get();
         $job_genders = JobGender::get();
@@ -221,25 +241,11 @@ class CompanyController extends Controller
             'job_salary_range_id'=>'required',
         ]);
 
-        // check company have any current plan to post jobs:
         $order = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-
-        if(!$order){
-            return redirect()->back()->with('error','Buy a package to post jobs');
-        }
-
         $package = Package::find($order->package_id);
-        $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
         $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
 
-        // Check the job posting limit for the current plan except **gold** package
-        if($package->package_name != "Gold"){
-            if($no_of_jobs_posted >= $package->total_allowed_jobs){
-                return redirect()->back()->with('error','Upgrade the current package to post more jobs');
-            }
-        }
-
-        // Check for the number of featured job posts
+        // Check for the limit of featured jobs for the current plan
         if($request->is_featured == 1){
             if($no_of_featured_jobs_posted >= $package->total_allowed_featured_jobs){
                 return redirect()->back()->with('error','Upgrade the current package to add featured option for more jobs');
@@ -285,6 +291,7 @@ class CompanyController extends Controller
     }
 
     public function job_update(Request $request){
+        $obj = Job::where('id',$request->id)->first();
 
         $request->validate([
             'title'=>'required',
@@ -300,25 +307,15 @@ class CompanyController extends Controller
         ]);
 
         $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
-
         $order = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        
-        if(!$order){
-            return redirect()->back()->with('error','Buy a package to access the post jobs');
-        }
-
         $package = Package::find($order->package_id);
-        
-        $job = Job::where('id',$request->id)->first();
-
-        if( $job->is_featured == 0 && $request->is_featured == 1){
+     
+        if( $obj->is_featured == 0 && $request->is_featured == 1){
             if($no_of_featured_jobs_posted >= $package->total_allowed_featured_jobs){
                 return redirect()->back()->with('error','Upgrade the current package to add featured option for more jobs');
             }
         }
 
-
-        $obj = Job::where('id',$request->id)->first();
         $obj->company_id = Auth::guard('company')->user()->id;   
         $obj->title = $request->title;        
         $obj->description = $request->description;

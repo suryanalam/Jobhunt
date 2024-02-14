@@ -4,7 +4,8 @@
 @section('seo-meta-description', 'Job Listing')
 
 @section('main_content')
-    <div class="page-top page-top-job-single" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
+
+    <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
         <div class="bg"></div>
         <div class="container">
             <div class="row">
@@ -104,9 +105,21 @@
                                 </button>
                             </div>
                         </form>
-                        <div class="advertisement">
-                            <a href=""><img src="uploads/ad-2.png" alt="" /></a>
-                        </div>
+
+                        @if ($advertisement->job_listing_ad_status == 'Show')
+                            <div class="advertisement">
+                                @if ($advertisement->job_listing_ad_url != null && $advertisement->job_listing_ad_url != '')
+                                    <a href="{{ $advertisement->job_listing_ad_url }}" target="_blank">
+                                        <img src="{{ asset("uploads/$advertisement->job_listing_ad") }}"
+                                            alt="job-listing-advertisement" />
+                                    </a>
+                                @else
+                                    <img src="{{ asset("uploads/$advertisement->job_listing_ad") }}"
+                                        alt="job-listing-advertisement" />
+                                @endif
+                            </div>
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-md-9">

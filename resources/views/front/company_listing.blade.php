@@ -21,14 +21,15 @@
             <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="job-filter">
-                        <form action="{{ route("company_listing") }}" method="get">
+                        <form action="{{ route('company_listing') }}" method="get">
 
                             <div class="widget">
                                 <h2>Company Name</h2>
-                                <input type="text" name="name" class="form-control"  placeholder="Search Company Name ..." />
+                                <input type="text" name="name" class="form-control"
+                                    placeholder="Search Company Name ..." />
                                 <div class="clearfix"></div>
                             </div>
-    
+
                             <div class="widget">
                                 <h2>Company Industry</h2>
                                 <select name="industry" class="form-control select2">
@@ -54,7 +55,7 @@
                                 </select>
                                 <div class="clearfix"></div>
                             </div>
-    
+
                             <div class="widget">
                                 <h2>Company Size</h2>
                                 <select name="size" class="form-control select2">
@@ -67,18 +68,18 @@
                                 </select>
                                 <div class="clearfix"></div>
                             </div>
-    
+
                             <div class="widget">
                                 <h2>Founded On</h2>
                                 <select name="founded" class="form-control select2">
                                     <option value="">Founded On</option>
                                     @for ($i = 1900; $i <= date('Y'); $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                                 <div class="clearfix"></div>
                             </div>
-    
+
                             <div class="filter-button">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-search"></i> Filter
@@ -87,9 +88,19 @@
 
                         </form>
 
-                        <div class="advertisement">
-                            <a href=""><img src="{{ asset("uploads/ad-2.png") }}" alt="" /></a>
-                        </div>
+                        @if ($advertisement->company_listing_ad_status == 'Show')
+                            <div class="advertisement">
+                                @if ($advertisement->company_listing_ad_url != null && $advertisement->company_listing_ad_url != '')
+                                    <a href="{{ $advertisement->company_listing_ad_url }}" target="_blank">
+                                        <img src="{{ asset("uploads/$advertisement->company_listing_ad") }}"
+                                            alt="company-listing-advertisement" />
+                                    </a>
+                                @else
+                                    <img src="{{ asset("uploads/$advertisement->company_listing_ad") }}"
+                                        alt="company-listing-advertisement" />
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
@@ -109,17 +120,19 @@
                                             </div>
                                             <div class="text">
                                                 <h3>
-                                                    <a href="{{ route('company_detail',$item->id) }}">{{ $item->company_name }}</a>
+                                                    <a
+                                                        href="{{ route('company_detail', $item->id) }}">{{ $item->company_name }}</a>
                                                 </h3>
                                                 <div class="detail-1 d-flex justify-content-start">
                                                     <div class="category">{{ $item->rCompanyIndustry->name }}</div>
                                                     <div class="location">{{ $item->rCompanyLocation->name }}</div>
                                                 </div>
                                                 <div class="detail-2 d-flex justify-content-start">
-                                                   {!! $item->description !!}
+                                                    {!! $item->description !!}
                                                 </div>
                                                 <div class="open-position">
-                                                    <span class="badge bg-primary">({{ $item->r_job_count }}) Open Positions</span>
+                                                    <span class="badge bg-primary">({{ $item->r_job_count }}) Open
+                                                        Positions</span>
                                                 </div>
                                             </div>
                                         </div>

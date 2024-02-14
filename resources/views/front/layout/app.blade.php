@@ -132,13 +132,11 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="item">
                         <h2 class="heading">Newsletter</h2>
-                        <p>
-                            To get the latest news from our website, please
-                            subscribe us here:
-                        </p>
-                        <form action="" method="post">
+                        <p>To get the latest news from our website, pleasesubscribe us here:</p>
+                        <form action="{{ route('subscriber_add') }}" method="post">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" name="" class="form-control" />
+                                <input type="text" name="email" class="form-control" required/>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Subscribe Now" />

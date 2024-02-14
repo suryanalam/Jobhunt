@@ -24,10 +24,11 @@ class CandidateController extends Controller
 
         $bookmarked_jobs_count = CandidateBookmark::where('candidate_id',Auth::guard('candidate')->user()->id)->count();
         $applied_jobs_count = CandidateApplication::where('candidate_id',Auth::guard('candidate')->user()->id)->count();
+        $approved_jobs_count =  CandidateApplication::where('candidate_id',Auth::guard('candidate')->user()->id)->where('status',"Approved")->count();
         $rejected_jobs_count =  CandidateApplication::where('candidate_id',Auth::guard('candidate')->user()->id)->where('status',"Rejected")->count();
 
         $recently_applied_jobs = CandidateApplication::where('candidate_id',Auth::guard('candidate')->user()->id)->take(3)->get();
-        return view('candidate.dashboard',compact('recently_applied_jobs','bookmarked_jobs_count','applied_jobs_count','rejected_jobs_count'));
+        return view('candidate.dashboard',compact('recently_applied_jobs','bookmarked_jobs_count','applied_jobs_count','rejected_jobs_count','approved_jobs_count'));
     }
 
     public function education(){

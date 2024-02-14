@@ -32,9 +32,8 @@
                                     <th>Cover Letter</th>
                                     <th class="w-100">View Job</th>
                                 </tr>
-                                @php $i=0; @endphp
-                                @foreach ($applied_jobs as $item)
-                                    @php$i++;@endphp
+                     
+                                @foreach ($applied_jobs as $item)             
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->rJob->title }}</td>
@@ -51,15 +50,15 @@
                                         </td>
                                         <td>
                                             <a href="" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $i }}">Cover Letter</a>
+                                            data-bs-target="#exampleModal{{ $loop->iteration }}">Cover Letter</a>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal{{ $i }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="exampleModal{{ $loop->iteration }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel{{ $loop->iteration }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Cover Letter</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel{{ $loop->iteration }}">Cover Letter</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>

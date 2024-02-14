@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\Websitemail;
+use App\Models\Advertisement;
 use App\Models\Job;
 
 use App\Models\JobCategory;
@@ -65,8 +66,10 @@ class JobListingController extends Controller
 
           $jobs = $jobs->paginate(5);
 
+          $advertisement = Advertisement::select('job_listing_ad','job_listing_ad_url','job_listing_ad_status')->where('id',2)->first();
+
           return view('front.job_listing',compact('jobs', 'job_categories', 'job_locations','job_experiences','job_types','job_genders','job_salary_ranges',
-               'search_title', 'search_category', 'search_location', 'search_experience', 'search_type', 'search_gender', 'search_salary_range')
+               'search_title', 'search_category', 'search_location', 'search_experience', 'search_type', 'search_gender', 'search_salary_range','advertisement')
           ); 
      }
 

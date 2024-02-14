@@ -16,6 +16,7 @@ use App\Http\Controllers\Front\BlogController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\TermsController;
 use App\Http\Controllers\Front\PrivacyController;
+use App\Http\Controllers\Front\SubscriberController;
 
 /* Company */
 use App\Http\Controllers\Company\CompanyController;
@@ -49,11 +50,13 @@ use App\Http\Controllers\Admin\AdminCompanyLocationController;
 use App\Http\Controllers\Admin\AdminCompanyIndustryController;
 use App\Http\Controllers\Admin\AdminCompanySizeController;
 
+use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Admin\AdminWhyChooseController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminPackageController;
+use App\Http\Controllers\Admin\AdminAdvertisementController;
 
 /* Front */
 Route::get('signup',[SignupController::class, 'index'])->name('signup');
@@ -78,6 +81,8 @@ Route::get('contact',[ContactController::class, 'index'])->name('contact');
 Route::post('contact/submit',[ContactController::class, 'submit'])->name('contact_submit');
 Route::get('terms-of-use',[TermsController::class, 'index'])->name('terms');
 Route::get('privacy-policy',[PrivacyController::class, 'index'])->name('privacy');
+Route::post('subscriber/add',[SubscriberController::class, 'store'])->name('subscriber_add');
+Route::get('subscriber/verify/{token}/{email}',[SubscriberController::class, 'verify'])->name('subscriber_verify');
 
 /* Company */
 Route::post('company/signup',[SignupController::class, 'company_signup'])->name('company_signup');
@@ -99,7 +104,7 @@ Route::middleware(['company:company'])->group(function () {
     Route::get('company/job/create',[CompanyController::class,'job_create'])->name('company_job_create');
     Route::post('company/job/store',[CompanyController::class,'job_store'])->name('company_job_store');
     Route::get('company/job/edit/{id}',[CompanyController::class,'job_edit'])->name('company_job_edit');
-    Route::post('company/job/job/update',[CompanyController::class,'job_update'])->name('company_job_update');
+    Route::post('company/job/update',[CompanyController::class,'job_update'])->name('company_job_update');
     Route::get('company/job/delete/{id}',[CompanyController::class,'job_delete'])->name('company_job_delete');
 
     Route::get('company/photos',[CompanyController::class,'photos'])->name('company_photos');
@@ -109,6 +114,11 @@ Route::middleware(['company:company'])->group(function () {
     Route::get('company/videos',[CompanyController::class,'videos'])->name('company_videos');
     Route::post('company/videos/submit',[CompanyController::class,'video_submit'])->name('company_video_submit');
     Route::get('company/videos/delete/{id}',[CompanyController::class,'video_delete'])->name('company_video_delete');
+  
+    Route::get('company/candidate-application',[CompanyController::class,'candidate_application'])->name('company_candidate_application');
+    Route::get('company/job-applicants/{id}',[CompanyController::class,'job_applicants'])->name('company_job_applicants');
+    Route::get('company/applicant-details/{id}',[CompanyController::class,'applicant_details'])->name('company_applicant_details');
+    Route::post('company/applicant-status/update',[CompanyController::class,'applicant_status_update'])->name('applicant_status_update');
 
     Route::get('company/profile/edit',[CompanyController::class,'profile_edit'])->name('company_profile_edit');
     Route::post('company/profile/update',[CompanyController::class,'profile_update'])->name('company_profile_update');
@@ -307,6 +317,10 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::post('/admin/company-size/update/{id}',[AdminCompanySizeController::class, 'update'])->name('admin_company_size_update');
     Route::get('/admin/company-size/delete/{id}',[AdminCompanySizeController::class, 'delete'])->name('admin_company_size_delete');
 
+    Route::get('/admin/subscriber/view',[AdminSubscriberController::class, 'index'])->name('admin_subscriber_view');
+    Route::get('/admin/subscriber/send-email',[AdminSubscriberController::class, 'send_email'])->name('admin_subscriber_send_email');
+    Route::post('/admin/subscriber/send-email',[AdminSubscriberController::class, 'send_email_submit'])->name('admin_subscriber_send_email_submit');
+    Route::get('/admin/subscriber/delete/{id}',[AdminSubscriberController::class, 'delete'])->name('admin_subscriber_delete');
 
     Route::get('/admin/why-choose/view',[AdminWhyChooseController::class, 'index'])->name('admin_why_choose_item');
     Route::get('/admin/why-choose/create',[AdminWhyChooseController::class, 'create'])->name('admin_why_choose_item_create');
@@ -342,5 +356,8 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/package/edit/{id}',[AdminPackageController::class, 'edit'])->name('admin_package_edit');
     Route::post('/admin/package/update/{id}',[AdminPackageController::class, 'update'])->name('admin_package_update');
     Route::get('/admin/package/delete/{id}',[AdminPackageController::class, 'delete'])->name('admin_package_delete');
+
+    Route::get('/admin/advertisement',[AdminAdvertisementController::class, 'index'])->name('admin_advertisement');
+    Route::post('/admin/advertisement/update',[AdminAdvertisementController::class, 'update'])->name('admin_advertisement_update');
 
 });

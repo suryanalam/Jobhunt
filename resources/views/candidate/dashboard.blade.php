@@ -26,20 +26,26 @@
                     <p>See all the statistics at a glance:</p>
 
                     <div class="row box-items">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="box1">
                                 <h4>{{ $applied_jobs_count }}</h4>
                                 <p>Applied Jobs</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="box2">
+                                <h4>{{ $approved_jobs_count }}</h4>
+                                <p>Approved Jobs</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="box3">
                                 <h4>{{ $rejected_jobs_count }}</h4>
                                 <p>Rejected Jobs</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="box3">
+                        <div class="col-md-3">
+                            <div class="box4">
                                 <h4>{{ $bookmarked_jobs_count }}</h4>
                                 <p>Bookmarked Jobs</p>
                             </div>

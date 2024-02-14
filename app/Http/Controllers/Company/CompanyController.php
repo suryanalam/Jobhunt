@@ -22,11 +22,18 @@ use App\Models\JobLocation;
 use App\Models\JobSalaryRange;
 use App\Models\JobType;
 
+use App\Models\Candidate;
+use App\Models\CandidateSkill;
+use App\Models\CandidateAward;
+use App\Models\CandidateResume;
+use App\Models\CandidateEducation;
+use App\Models\CandidateExperience;
+use App\Models\CandidateApplication;
+
 use App\Models\Company;
 use App\Models\Package;
 use App\Models\Order;
 use App\Models\Job;
-
 
 class CompanyController extends Controller
 {
@@ -454,6 +461,40 @@ class CompanyController extends Controller
     public function video_delete($id){
         CompanyVideo::where('id',$id)->delete();
         return redirect()->back()->with('success','Video deleted successfully');
+    }
+
+    public function candidate_application(){
+        $jobs = Job::where('company_id',Auth::guard('company')->user()->id)->orderBy('id','desc')->get();
+        return view('company.candidate_application',compact('jobs'));
+    }
+
+    public function job_applicants($id){
+        $applicants = CandidateApplication::where('job_id',$id)->orderBy('id','desc')->get();
+        $job_details = Job::select('title')->where('id',$id)->orderBy('id','desc')->first();
+        return view('company.job_applicants',compact('applicants','job_details'));
+    }
+
+    public function applicant_details($id){
+        $applicant_details = Candidate::where('id',$id)->orderBy('id','desc')->first();
+        $applicant_educations = CandidateEducation::where('candidate_id',$applicant_details->id)->orderBy('id','desc')->get();
+        $applicant_skills = CandidateSkill::where('candidate_id',$applicant_details->id)->orderBy('id','desc')->get();;
+        $applicant_experiences = CandidateExperience::where('candidate_id',$applicant_details->id)->orderBy('id','desc')->get();;
+        $applicant_awards = CandidateAward::where('candidate_id',$applicant_details->id)->orderBy('id','desc')->get();;
+        $applicant_resumes = CandidateResume::where('candidate_id',$applicant_details->id)->orderBy('id','desc')->get();;
+
+        return view('company.job_applicant_details',compact('applicant_details','applicant_educations',
+            'applicant_skills', 'applicant_experiences','applicant_awards','applicant_resumes'));
+    }
+
+    public function applicant_status_update(Request $request){
+        $request->validate([
+            "status" => "required",
+        ]);
+
+        $application = CandidateApplication::where('candidate_id',$request->candidate_id)->where('job_id',$request->job_id)->first();
+        $application->status = $request->status;
+        $application->update();
+        return redirect()->back()->with('success','Status updated successfully !!');
     }
 
     public function profile_edit(){

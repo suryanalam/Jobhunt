@@ -41,18 +41,22 @@
 
                                     @php
                                         $applied = \App\Models\CandidateApplication::where('candidate_id', Auth::guard('candidate')->user()->id)
-                                            ->where('job_id', $job->id)->first();
+                                            ->where('job_id', $job->id)
+                                            ->first();
                                     @endphp
 
                                     @if (!$applied)
-                                        <a href="{{ route('candidate_job_apply',$job->id) }}" class="btn btn-primary">Apply Now</a>
+                                        <a href="{{ route('candidate_job_apply', $job->id) }}"
+                                            class="btn btn-primary">Apply
+                                            Now</a>
                                     @else
                                         <p class=" alert alert-success">{{ $applied->status }}</p>
                                     @endif
 
                                     @php
                                         $bookmarked = \App\Models\CandidateBookmark::where('candidate_id', Auth::guard('candidate')->user()->id)
-                                            ->where('job_id', $job->id)->count();
+                                            ->where('job_id', $job->id)
+                                            ->count();
                                     @endphp
 
                                     @if (!$bookmarked && !$applied)
@@ -121,9 +125,23 @@
                     </div>
 
                     <div class="left-item">
-                        <div class="apply">
-                            <a href="apply.html" class="btn btn-primary">Apply Now</a>
-                        </div>
+                        @if (Auth::guard('candidate')->check() && date('Y-m-d') <= $job->deadline)
+
+                            @php
+                                $applied = \App\Models\CandidateApplication::where('candidate_id', Auth::guard('candidate')->user()->id)
+                                    ->where('job_id', $job->id)
+                                    ->first();
+                            @endphp
+
+                            @if (!$applied)
+                                <a href="{{ route('candidate_job_apply', $job->id) }}" class="btn btn-primary">
+                                    Apply Now
+                                </a>
+                            @else
+                                <p class=" alert alert-success">{{ $applied->status }}</p>
+                            @endif
+
+                        @endif
                     </div>
 
                     <div class="left-item">

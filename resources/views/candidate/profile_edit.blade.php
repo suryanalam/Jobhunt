@@ -29,7 +29,7 @@
                                 <label for="">Existing Photo</label>
                                 <div class="form-group">
                                     @if (Auth::guard('candidate')->user()->photo == '' || Auth::guard('candidate')->user()->photo == null)
-                                        <img src="{{ asset('uploads/default.png') }}" alt="candidate-photo"
+                                        <img src="{{ asset('uploads/company_default_logo.png') }}" alt="candidate-photo"
                                             class="user-photo" />
                                     @else
                                         <img src="{{ asset('uploads/' . Auth::guard('candidate')->user()->photo) }}"

@@ -1,7 +1,7 @@
 @extends('front.layout.app')
 
-@section('seo-title',"$other_page_item->signup_page_title")
-@section('seo-meta-description',"$other_page_item->signup_page_meta_description")
+@section('seo-title',"$page_auth_item->signup_page_title")
+@section('seo-meta-description',"$page_auth_item->signup_page_meta_description")
 
 @section('main_content')
 <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>{{ $other_page_item->signup_page_heading }}</h2>
+                <h2>{{ $page_auth_item->signup_page_heading }}</h2>
             </div>
         </div>
     </div>

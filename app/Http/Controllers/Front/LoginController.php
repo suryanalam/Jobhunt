@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\PageOtherItem;
+use App\Models\PageAuthItem;
 use Hash;
 use Auth;
 
@@ -20,8 +20,8 @@ class LoginController extends Controller
             return redirect()->route('company_dashboard');
         }
         
-        $other_page_item = PageOtherItem::where('id',1)->first();
-        return view('front.login',compact('other_page_item'));
+        $page_auth_item = PageAuthItem::where('id',1)->first();
+        return view('front.login',compact('page_auth_item'));
     }
 
     public function company_login(Request $request){

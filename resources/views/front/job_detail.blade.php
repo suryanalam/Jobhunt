@@ -50,7 +50,14 @@
                                             class="btn btn-primary">Apply
                                             Now</a>
                                     @else
-                                        <p class=" alert alert-success">{{ $applied->status }}</p>
+                                        @if ($applied->status == 'Approved')
+                                            @php $alert_bg = "success" @endphp
+                                        @elseif($applied->status == 'Rejected')
+                                            @php $alert_bg = "danger" @endphp
+                                        @elseif($applied->status == 'Applied')
+                                            @php $alert_bg = "primary" @endphp
+                                        @endif
+                                        <p class="alert alert-{{ $alert_bg }}">{{ $applied->status }}</p>
                                     @endif
 
                                     @php
@@ -137,8 +144,6 @@
                                 <a href="{{ route('candidate_job_apply', $job->id) }}" class="btn btn-primary">
                                     Apply Now
                                 </a>
-                            @else
-                                <p class=" alert alert-success">{{ $applied->status }}</p>
                             @endif
 
                         @endif

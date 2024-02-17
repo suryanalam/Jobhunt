@@ -8,7 +8,7 @@ use App\Mail\Websitemail;
 use Hash;
 use Auth;
 
-use App\Models\PageOtherItem;
+use App\Models\PageAuthItem;
 use App\Models\Company;
 use App\Models\Candidate;
 
@@ -21,8 +21,8 @@ class ForgetPasswordController extends Controller
             return redirect()->route('company_dashboard');
         }
 
-        $other_page_item = PageOtherItem::where('id',1)->first();
-        return view('company.forget_password',compact('other_page_item'));
+        $page_auth_item = PageAuthItem::where('id',1)->first();
+        return view('company.forget_password',compact('page_auth_item'));
     }
 
     public function company_forget_password_submit(Request $request){
@@ -77,8 +77,8 @@ class ForgetPasswordController extends Controller
             return redirect()->route('candidate_dashboard');
         }
         
-        $other_page_item = PageOtherItem::where('id',1)->first();
-        return view('candidate.forget_password',compact('other_page_item'));
+        $page_auth_item = PageAuthItem::where('id',1)->first();
+        return view('candidate.forget_password',compact('page_auth_item'));
     }
 
     public function candidate_forget_password_submit(Request $request){

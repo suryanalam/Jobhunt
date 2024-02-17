@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class PageBlogItem extends Model
 {
     use HasFactory;
-    public $table = "blog_page_items";
+    public $table = "page_blog_items";
 }

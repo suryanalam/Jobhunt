@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\Websitemail;
+use App\Models\PageJobListingItem;
 use App\Models\Advertisement;
 use App\Models\Job;
+use App\Models\Order;
 
 use App\Models\JobCategory;
 use App\Models\JobExperience;
@@ -20,7 +22,7 @@ class JobListingController extends Controller
      
      public function index(Request $request){
           $jobs = Job::orderBy('id',"desc");
-
+          
           $job_categories = JobCategory::orderBy('name','asc')->get();
           $job_experiences = JobExperience:: get();
           $job_genders = JobGender::get();
@@ -64,12 +66,24 @@ class JobListingController extends Controller
                $jobs = $jobs->where('job_salary_range_id',$request->salary_range);
           }
 
+          // Extract only those jobs where company has the active plan to post jobs:
+          // $filtered_jobs = $jobs->get()->filter(function ($job) {
+          //      $company_plan_info = \App\Models\Order::where('company_id', $job->company_id)->where('currently_active', 1)->first();
+          //      return date('Y-m-d') <= $company_plan_info->expire_date;
+          // });
+
+          // $jobs->setCollection($filtered_jobs);
+
           $jobs = $jobs->paginate(5);
+
+          // dd($jobs);
 
           $advertisement = Advertisement::select('job_listing_ad','job_listing_ad_url','job_listing_ad_status')->where('id',2)->first();
 
-          return view('front.job_listing',compact('jobs', 'job_categories', 'job_locations','job_experiences','job_types','job_genders','job_salary_ranges',
-               'search_title', 'search_category', 'search_location', 'search_experience', 'search_type', 'search_gender', 'search_salary_range','advertisement')
+          $page_job_listing_item = PageJobListingItem::where('id',1)->first();
+
+          return view('front.job_listing',compact('jobs', 'job_categories', 'job_locations','job_experiences','job_types','job_genders','job_salary_ranges','advertisement',
+               'search_title', 'search_category', 'search_location', 'search_experience', 'search_type', 'search_gender', 'search_salary_range','page_job_listing_item')
           ); 
      }
 

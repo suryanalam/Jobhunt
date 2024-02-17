@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index(){
         $page_home_data = PageHomeItem::where('id',1)->first();
         $job_categories = JobCategory::orderBy('name','asc')->take(9)->get();
-        $featured_jobs = Job::orderBy('id','desc')->where('is_featured',1)->take(6)->get();
+        $featured_jobs = Job::orderBy('id','desc')->where('is_featured',1)->get();
         $all_job_categories = JobCategory::orderBy('name','asc')->get();
         $all_job_locations = JobLocation::orderBy('name','asc')->get();
         $why_choose_items = WhyChooseItem::get();

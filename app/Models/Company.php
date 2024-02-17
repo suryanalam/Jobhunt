@@ -14,6 +14,10 @@ class Company extends Authenticatable
         return $this->hasMany(Job::class,'company_id');
     }
 
+    public function rOrder(){
+        return $this->hasMany(Order::class,'company_id');
+    }
+
     public function rCompanyPhoto(){
         return $this->hasMany(CompanyPhoto::class,'company_id');
     }

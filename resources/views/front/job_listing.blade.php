@@ -1,7 +1,7 @@
 @extends('front.layout.app')
 
-@section('seo-title', 'Job Listing')
-@section('seo-meta-description', 'Job Listing')
+@section('seo-title', "$page_job_listing_item->title")
+@section('seo-meta-description', "$page_job_listing_item->meta_description")
 
 @section('main_content')
 
@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Job Listing</h2>
+                    <h2>{{ $page_job_listing_item->heading }}</h2>
                 </div>
             </div>
         </div>
@@ -131,10 +131,20 @@
                                         <i class="fas fa-search"></i> Search Result for Job Listing
                                     </div>
                                 </div>
+
                                 @if (!$jobs->count())
                                     <p class="text-danger">No Jobs Found</p>
                                 @endif
-                                @foreach ($jobs as $item)
+                                @foreach ($jobs as $item) 
+
+                                    @php 
+                                        $order_data = $item->rCompany->rOrder;
+                                        $order_data = $order_data->where('currently_active',1)->first();
+                                        if(date('Y-m-d') > $order_data->expire_date){
+                                            continue; 
+                                        }   
+                                    @endphp
+                                
                                     <div class="col-md-12">
                                         <div class="item d-flex justify-content-start">
                                             <div class="logo">

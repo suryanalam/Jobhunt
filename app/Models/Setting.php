@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PageOtherItem extends Model
+class Setting extends Model
 {
     use HasFactory;
-    public $table = "page_other_items";
 }

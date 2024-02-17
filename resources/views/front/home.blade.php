@@ -154,8 +154,26 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $i=1;
+                @endphp
                 <div class="row">
                     @foreach ($featured_jobs as $item)
+                        @php
+                        
+                            if($i > 6){
+                                break;
+                            }
+
+                            $order_data = $item->rCompany->rOrder;
+                            $order_data = $order_data->where('currently_active',1)->first();
+                            if(date('Y-m-d') > $order_data->expire_date){
+                                continue; 
+                            }else{
+                                $i++;
+                            }   
+                        @endphp
+
                         <div class="col-lg-6 col-md-12">
                             <div class="item d-flex justify-content-start">
                                 <div class="logo">

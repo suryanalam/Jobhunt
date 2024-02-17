@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\Websitemail;
-use App\Models\PageOtherItem;
+use App\Models\PageAuthItem;
 use App\Models\Company;
 use App\Models\Candidate;
 use Hash;
@@ -23,8 +23,8 @@ class SignupController extends Controller
             return redirect()->route('company_dashboard');
         }
 
-        $other_page_item = PageOtherItem::where('id',1)->first();
-        return view('front.signup',compact('other_page_item'));
+        $page_auth_item = PageAuthItem::where('id',1)->first();
+        return view('front.signup',compact('page_auth_item'));
     }
 
     public function company_signup(Request $request){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\Websitemail;
+use App\Models\PageCompanyListingItem;
 use App\Models\Advertisement;
 use App\Models\Company;
 use App\Models\Job;
@@ -54,8 +55,10 @@ class CompanyListingController extends Controller
 
         $advertisement = Advertisement::select('company_listing_ad','company_listing_ad_url','company_listing_ad_status')->where('id',2)->first();
 
-        return view('front.company_listing',compact("company_industries","company_locations","company_sizes",
-            "companies","search_name","search_industry","search_location","search_size","search_founded","advertisement")
+        $page_company_listing_item = PageCompanyListingItem::where('id',1)->first();
+
+        return view('front.company_listing',compact("company_industries","company_locations","company_sizes","companies",
+          "search_name","search_industry","search_location","search_size","search_founded","advertisement","page_company_listing_item")
         ); 
    }
 

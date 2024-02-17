@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('heading', 'Other Page Content')
+@section('heading', 'Auth Page Content')
 
 @section('main-content')
 <div class="section-body">
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin_other_page_update') }}" method="post" >
+                    <form action="{{ route('admin_auth_page_update') }}" method="post" >
                         @csrf
                         <div class="row custom-tab">
                             <div class="col-lg-3 col-md-12">
@@ -38,16 +38,16 @@
                                             <div class="col-md-12">
                                                 <div class="mb-4">
                                                     <label>Heading *</label>
-                                                    <input type="text" class="form-control" name="login_page_heading" value="{{ $page_other_data->login_page_heading }}">
+                                                    <input type="text" class="form-control" name="login_page_heading" value="{{ $page_auth_data->login_page_heading }}">
                                                 </div>
                                                 <h5 class="seo_section">SEO Section</h5>
                                                 <div class="mb-4">
                                                     <label>Title</label>
-                                                    <input type="text" class="form-control" name="login_page_title" value="{{ $page_other_data->login_page_title }}">
+                                                    <input type="text" class="form-control" name="login_page_title" value="{{ $page_auth_data->login_page_title }}">
                                                 </div>
                                                 <div class="mb-4">
                                                     <label>Meta Description</label>
-                                                    <input type="text" class="form-control" name="login_page_meta_description" value="{{ $page_other_data->login_page_meta_description }}">
+                                                    <input type="text" class="form-control" name="login_page_meta_description" value="{{ $page_auth_data->login_page_meta_description }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -61,16 +61,16 @@
                                                 <div class="col-md-12">
                                                     <div class="mb-4">
                                                         <label>Heading *</label>
-                                                        <input type="text" class="form-control" name="signup_page_heading" value="{{ $page_other_data->signup_page_heading }}">
+                                                        <input type="text" class="form-control" name="signup_page_heading" value="{{ $page_auth_data->signup_page_heading }}">
                                                     </div>
                                                     <h5 class="seo_section">SEO Section</h5>
                                                     <div class="mb-4">
                                                         <label>Title</label>
-                                                        <input type="text" class="form-control" name="signup_page_title" value="{{ $page_other_data->signup_page_title }}">
+                                                        <input type="text" class="form-control" name="signup_page_title" value="{{ $page_auth_data->signup_page_title }}">
                                                     </div>
                                                     <div class="mb-4">
                                                         <label>Meta Description</label>
-                                                        <input type="text" class="form-control" name="signup_page_meta_description" value="{{ $page_other_data->signup_page_meta_description }}">
+                                                        <input type="text" class="form-control" name="signup_page_meta_description" value="{{ $page_auth_data->signup_page_meta_description }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,15 +84,15 @@
                                             <div class="col-md-12">
                                                 <div class="mb-4">
                                                     <label>Heading *</label>
-                                                    <input type="text" class="form-control" name="forget_password_page_heading" value="{{ $page_other_data->forget_password_page_heading }}">
+                                                    <input type="text" class="form-control" name="forget_password_page_heading" value="{{ $page_auth_data->forget_password_page_heading }}">
                                                 </div>
                                                 <div class="mb-4">
                                                     <label>Title</label>
-                                                    <input type="text" class="form-control" name="forget_password_page_title" value="{{ $page_other_data->forget_password_page_title }}">
+                                                    <input type="text" class="form-control" name="forget_password_page_title" value="{{ $page_auth_data->forget_password_page_title }}">
                                                 </div>
                                                 <div class="mb-4">
                                                     <label>Meta Description</label>
-                                                    <input type="text" class="form-control" name="forget_password_page_meta_description" value="{{ $page_other_data->forget_password_page_meta_description }}">
+                                                    <input type="text" class="form-control" name="forget_password_page_meta_description" value="{{ $page_auth_data->forget_password_page_meta_description }}">
                                                 </div>
                                             </div>
                                         </div>

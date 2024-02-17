@@ -1,7 +1,7 @@
 @extends('front.layout.app')
 
-@section('seo-title', 'Company Listing')
-@section('seo-meta-description', 'Company Listing')
+@section('seo-title',"$page_company_listing_item->title")
+@section('seo-meta-description',"$page_company_listing_item->meta_description")
 
 @section('main_content')
 
@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Company Listing</h2>
+                    <h2>{{ $page_company_listing_item->heading }}</h2>
                 </div>
             </div>
         </div>
@@ -113,6 +113,13 @@
                                     </div>
                                 </div>
                                 @foreach ($companies as $item)
+                                    @php 
+                                        $order_data = $item->rOrder;
+                                        $order_data = $order_data->where('currently_active',1)->first();
+                                        if(!$order_data || date('Y-m-d') > $order_data->expire_date ){
+                                            continue; 
+                                        }   
+                                    @endphp
                                     <div class="col-md-12">
                                         <div class="item d-flex justify-content-start">
                                             <div class="logo">

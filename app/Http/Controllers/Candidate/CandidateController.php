@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Candidate;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use App\Mail\Websitemail;
 use Auth;
 use Hash;
 
@@ -442,7 +443,14 @@ class CandidateController extends Controller
         $obj->status = "Applied";
         $obj->save();
 
-        // CandidateBookmark::where('candidate_id', Auth::guard('candidate')->user()->id)->where('job_id',$request->job_id)->delete();
+        $job_details = Job::with('rCompany')->where('id',$request->job_id)->first(); 
+        $company_email = $job_details->rCompany->email;
+
+        $application_link = url("company/job-applicants/$request->job_id");
+        $subject = "New Job Application for $job_details->title";
+        $message = "To view the application <a href='$application_link'>click here</a>";
+
+        \Mail::to($company_email)->send(new Websitemail($subject,$message));
 
         return redirect()->route('job_listing')->with('success','Your Application is sent succesfully !!');
     }

@@ -21,14 +21,16 @@
 
             <li
                 class="nav-item dropdown {{ Request::is('admin/home-page') ||
+                Request::is('admin/job-listing-page') ||
+                Request::is('admin/company-listing-page') ||
+                Request::is('admin/pricing-page') ||
                 Request::is('admin/faq-page') ||
                 Request::is('admin/blog-page') ||
+                Request::is('admin/contact-page') ||
                 Request::is('admin/term-page') ||
                 Request::is('admin/privacy-page') ||
-                Request::is('admin/contact-page') ||
-                Request::is('admin/job-category-page') ||
-                Request::is('admin/pricing-page') ||
-                Request::is('admin/other-page')
+                Request::is('admin/auth-page') ||
+                Request::is('admin/job-category-page')
                     ? 'active'
                     : '' }}">
                 <a href="#" class="nav-link has-dropdown">
@@ -41,14 +43,40 @@
                             <i class="fas fa-angle-right"></i>Home
                         </a>
                     </li>
+
+                    <li class="{{ Request::is('admin/job-listing-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_job_listing_page') }}">
+                            <i class="fas fa-angle-right"></i>Job Listing
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('admin/company-listing-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_company_listing_page') }}">
+                            <i class="fas fa-angle-right"></i>Company Listing
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('admin/pricing-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_pricing_page') }}">
+                            <i class="fas fa-angle-right"></i>Pricing
+                        </a>
+                    </li>
+
                     <li class="{{ Request::is('admin/faq-page') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin_faq_page') }}">
                             <i class="fas fa-angle-right"></i>FAQ
                         </a>
                     </li>
+
                     <li class="{{ Request::is('admin/blog-page') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin_blog_page') }}">
                             <i class="fas fa-angle-right"></i>Blog
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('admin/contact-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_contact_page') }}">
+                            <i class="fas fa-angle-right"></i>Contact
                         </a>
                     </li>
 
@@ -64,9 +92,9 @@
                         </a>
                     </li>
 
-                    <li class="{{ Request::is('admin/contact-page') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin_contact_page') }}">
-                            <i class="fas fa-angle-right"></i>Contact
+                    <li class="{{ Request::is('admin/auth-page') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin_auth_page') }}">
+                            <i class="fas fa-angle-right"></i>Authentication
                         </a>
                     </li>
 
@@ -75,19 +103,6 @@
                             <i class="fas fa-angle-right"></i>Job Categories
                         </a>
                     </li>
-
-                    <li class="{{ Request::is('admin/pricing-page') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin_pricing_page') }}">
-                            <i class="fas fa-angle-right"></i>Pricing
-                        </a>
-                    </li>
-
-                    <li class="{{ Request::is('admin/other-page') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin_other_page') }}">
-                            <i class="fas fa-angle-right"></i>Other
-                        </a>
-                    </li>
-
                 </ul>
             </li>
 
@@ -237,6 +252,13 @@
                 <a class="nav-link" href="{{ route('admin_advertisement') }}" data-bs-toggle="tooltip"
                     data-bs-placement="right" data-bs-title="Advertisements">
                     <i class="fas fa-hand-point-right"></i> <span>Advertisements</span>
+                </a>
+            </li>
+
+            <li class="{{ Request::is('admin/setting/*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin_setting') }}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-title="Settings">
+                    <i class="fas fa-hand-point-right"></i> <span>Settings</span>
                 </a>
             </li>
 

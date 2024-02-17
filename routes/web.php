@@ -30,13 +30,15 @@ use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminProfileController;
 
 use App\Http\Controllers\Admin\AdminHomePageController;
+use App\Http\Controllers\Admin\AdminJobListingPageController;
+use App\Http\Controllers\Admin\AdminCompanyListingPageController;
+use App\Http\Controllers\Admin\AdminPricingPageController;
 use App\Http\Controllers\Admin\AdminFaqPageController;
 use App\Http\Controllers\Admin\AdminBlogPageController;
+use App\Http\Controllers\Admin\AdminContactPageController;
 use App\Http\Controllers\Admin\AdminTermPageController;
 use App\Http\Controllers\Admin\AdminPrivacyPageController;
-use App\Http\Controllers\Admin\AdminContactPageController;
-use App\Http\Controllers\Admin\AdminPricingPageController;
-use App\Http\Controllers\Admin\AdminOtherPageController;
+use App\Http\Controllers\Admin\AdminAuthPageController;
 use App\Http\Controllers\Admin\AdminJobCategoryPageController;
 
 use App\Http\Controllers\Admin\AdminJobCategoryController;
@@ -57,6 +59,7 @@ use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminAdvertisementController;
+use App\Http\Controllers\Admin\AdminSettingController;
 
 /* Front */
 Route::get('signup',[SignupController::class, 'index'])->name('signup');
@@ -228,11 +231,23 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/home-page',[AdminHomePageController::class, 'index'])->name('admin_home_page');
     Route::post('/admin/home-page/update',[AdminHomePageController::class, 'update'])->name('admin_home_page_update');
 
+    Route::get('/admin/job-listing-page',[AdminJobListingPageController::class, 'index'])->name('admin_job_listing_page');
+    Route::post('/admin/job-listing-page/update',[AdminJobListingPageController::class, 'update'])->name('admin_job_listing_page_update');
+
+    Route::get('/admin/company-listing-page',[AdminCompanyListingPageController::class, 'index'])->name('admin_company_listing_page');
+    Route::post('/admin/company-listing-page/update',[AdminCompanyListingPageController::class, 'update'])->name('admin_company_listing_page_update');
+
+    Route::get('/admin/pricing-page',[AdminPricingPageController::class, 'index'])->name('admin_pricing_page');
+    Route::post('/admin/pricing-page/update',[AdminPricingPageController::class, 'update'])->name('admin_pricing_page_update');
+
     Route::get('/admin/faq-page',[AdminFaqPageController::class, 'index'])->name('admin_faq_page');
     Route::post('/admin/faq-page/update',[AdminFaqPageController::class, 'update'])->name('admin_faq_page_update');
 
     Route::get('/admin/blog-page',[AdminBlogPageController::class, 'index'])->name('admin_blog_page');
     Route::post('/admin/blog-page/update',[AdminBlogPageController::class, 'update'])->name('admin_blog_page_update');
+
+    Route::get('/admin/contact-page',[AdminContactPageController::class, 'index'])->name('admin_contact_page');
+    Route::post('/admin/contact-page/update',[AdminContactPageController::class, 'update'])->name('admin_contact_page_update');
 
     Route::get('/admin/term-page',[AdminTermPageController::class, 'index'])->name('admin_term_page');
     Route::post('/admin/term-page/update',[AdminTermPageController::class, 'update'])->name('admin_term_page_update');
@@ -240,14 +255,8 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/privacy-page',[AdminPrivacyPageController::class, 'index'])->name('admin_privacy_page');
     Route::post('/admin/privacy-page/update',[AdminPrivacyPageController::class, 'update'])->name('admin_privacy_page_update');
 
-    Route::get('/admin/contact-page',[AdminContactPageController::class, 'index'])->name('admin_contact_page');
-    Route::post('/admin/contact-page/update',[AdminContactPageController::class, 'update'])->name('admin_contact_page_update');
-
-    Route::get('/admin/pricing-page',[AdminPricingPageController::class, 'index'])->name('admin_pricing_page');
-    Route::post('/admin/pricing-page/update',[AdminPricingPageController::class, 'update'])->name('admin_pricing_page_update');
-
-    Route::get('/admin/other-page',[AdminOtherPageController::class, 'index'])->name('admin_other_page');
-    Route::post('/admin/other-page/update',[AdminOtherPageController::class, 'update'])->name('admin_other_page_update');
+    Route::get('/admin/auth-page',[AdminAuthPageController::class, 'index'])->name('admin_auth_page');
+    Route::post('/admin/auth-page/update',[AdminAuthPageController::class, 'update'])->name('admin_auth_page_update');
 
     Route::get('/admin/job-category-page',[AdminJobCategoryPageController::class, 'index'])->name('admin_job_category_page');
     Route::post('/admin/job-category-page/update',[AdminJobCategoryPageController::class, 'update'])->name('admin_job_category_page_update');
@@ -359,5 +368,8 @@ Route::middleware(['admin:admin'])->group(function () {
 
     Route::get('/admin/advertisement',[AdminAdvertisementController::class, 'index'])->name('admin_advertisement');
     Route::post('/admin/advertisement/update',[AdminAdvertisementController::class, 'update'])->name('admin_advertisement_update');
+
+    Route::get('/admin/setting',[AdminSettingController::class, 'index'])->name('admin_setting');
+    Route::post('/admin/setting/update',[AdminSettingController::class, 'update'])->name('admin_setting_update');
 
 });

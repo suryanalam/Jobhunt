@@ -6,6 +6,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use App\Mail\Websitemail;
 use Auth;
 use Hash;
 
@@ -212,6 +213,10 @@ class CompanyController extends Controller
             return redirect()->back()->with('error','Buy a package to post jobs');
         }
 
+        if(date('Y-m-d') > $order->expire_date){
+            return redirect()->back()->with('error','Your current package is expired !!');
+        }
+
         $package = Package::find($order->package_id);
         
         $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
@@ -364,6 +369,10 @@ class CompanyController extends Controller
             return redirect()->back()->with('error','Buy a package to access the photo section');
         }
 
+        if(date('Y-m-d') > $order->expire_date){
+            return redirect()->back()->with('error','Your current package is expired !!');
+        }
+
         $package = Package::find($order->package_id);
 
         if($package->total_allowed_photos == 0){
@@ -420,6 +429,10 @@ class CompanyController extends Controller
             return redirect()->back()->with('error','Buy a package to access the video section');
         }
 
+        if(date('Y-m-d') > $order->expire_date){
+            return redirect()->back()->with('error','Your current package is expired !!');
+        }
+        
         $package = Package::find($order->package_id);
 
         if($package->total_allowed_videos == 0){
@@ -494,6 +507,18 @@ class CompanyController extends Controller
         $application = CandidateApplication::where('candidate_id',$request->candidate_id)->where('job_id',$request->job_id)->first();
         $application->status = $request->status;
         $application->update();
+
+        $job_title = $application->rJob->title;
+        $candidate_email = $application->rCandidate->email;
+
+        if($request->status == "Approved"){
+            $jobs_link = url('candidate/applied-jobs');
+            $subject = "Job Application status for  $job_title";
+            $message = 'Congratuations, you are selected !! <br> ';
+            $message .= "To check the your job portal <a href=$jobs_link>Click here</a>";
+            \Mail::to($candidate_email)->send(new Websitemail($subject,$message));
+        }
+
         return redirect()->back()->with('success','Status updated successfully !!');
     }
 

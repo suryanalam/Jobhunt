@@ -4,7 +4,7 @@
 
 @section('button')
 <div>
-    <a href="{{ route('admin_company_industry') }}" class="btn btn-primary"><i class="fas fa-plus"></i>View All</a>
+    <a href="{{ route('admin_company_industry') }}" class="btn btn-primary">View All</a>
 </div>
 @endsection
 

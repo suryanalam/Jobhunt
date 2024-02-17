@@ -27,12 +27,13 @@ class LoginController extends Controller
     public function company_login(Request $request){
         $request->validate([
             'username' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $credentials = [
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'status' => 1
         ];
 
         if(Auth::guard('company')->attempt($credentials)){
@@ -50,12 +51,13 @@ class LoginController extends Controller
     public function candidate_login(Request $request){
         $request->validate([
             'username' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         $credentials = [
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'status' => 1
         ];
 
         if(Auth::guard('candidate')->attempt($credentials)){

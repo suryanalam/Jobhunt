@@ -42,8 +42,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="box3">
-                                <h4>NA</h4>
-                                <p>Pending Jobs</p>
+                                <h4>{{ $urgent_jobs_count }}</h4>
+                                <p>Urgent Jobs</p>
                             </div>
                         </div>
                     </div>

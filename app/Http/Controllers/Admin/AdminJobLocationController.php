@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobLocation;
+use App\Models\Job;
 
 class AdminJobLocationController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminJobLocationController extends Controller
     }
 
     public function delete($id){
+        $count = Job::where('job_location_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Jobs existed with this location');
+        }
         JobLocation::where('id',$id)->delete();
         return redirect()->route('admin_job_location')->with('success','Data is deleted successfully');
     }

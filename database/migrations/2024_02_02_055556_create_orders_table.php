@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('payment_method');
             $table->string('start_date');
             $table->string('expire_date');
+            $table->string('job_limit');
+            $table->string('featured_job_limit');
             $table->tinyInteger('currently_active');
             $table->timestamps();
         });

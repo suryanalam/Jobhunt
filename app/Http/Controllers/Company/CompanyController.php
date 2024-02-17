@@ -43,8 +43,9 @@ class CompanyController extends Controller
 
         $open_jobs_count = Job::where('company_id',Auth::guard('company')->user()->id)->count(); 
         $featured_jobs_count = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
+        $urgent_jobs_count = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_urgent',1)->count();
 
-        return view('company.dashboard',compact('recent_jobs','open_jobs_count','featured_jobs_count'));
+        return view('company.dashboard',compact('recent_jobs','open_jobs_count','featured_jobs_count','urgent_jobs_count'));
     }
 
     public function make_payment(){
@@ -86,7 +87,9 @@ class CompanyController extends Controller
                     session()->put('package_id',$single_package_data->id);
                     session()->put('package_price',$single_package_data->package_price);
                     session()->put('package_days',$single_package_data->package_days);
-
+                    session()->put('package_job_limit',$single_package_data->total_allowed_jobs);
+                    session()->put('package_featured_job_limit',$single_package_data->total_allowed_featured_jobs);
+            
                     return redirect()->away($link['href']);
                 }
             }
@@ -116,6 +119,8 @@ class CompanyController extends Controller
             $obj->package_id = session('package_id');
             $obj->order_no = time();
             $obj->paid_amount = session('package_price');
+            $obj->job_limit = session('package_job_limit');
+            $obj->featured_job_limit = session('package_featured_job_limit');
             $obj->payment_method = 'PayPal';
             $obj->start_date = date('Y-m-d');
             $obj->expire_date = date('Y-m-d',strtotime("+$days days"));
@@ -164,6 +169,8 @@ class CompanyController extends Controller
         session()->put('package_id',$single_package_data->id);
         session()->put('package_price',$single_package_data->package_price);
         session()->put('package_days',$single_package_data->package_days);
+        session()->put('package_job_limit',$single_package_data->total_allowed_jobs);
+        session()->put('package_featured_job_limit',$single_package_data->total_allowed_featured_jobs);
 
         return redirect()->away($response->url);
         
@@ -182,6 +189,8 @@ class CompanyController extends Controller
         $obj->package_id = session('package_id');
         $obj->order_no = time();
         $obj->paid_amount = session('package_price');
+        $obj->job_limit = session('package_job_limit');
+        $obj->featured_job_limit = session('package_featured_job_limit');
         $obj->payment_method = 'Stripe';
         $obj->start_date = date('Y-m-d');
         $obj->expire_date = date('Y-m-d',strtotime("+$days days"));
@@ -191,6 +200,8 @@ class CompanyController extends Controller
         session()->forget('package_id');
         session()->forget('package_price');
         session()->forget('package_days');
+        session()->forget('package_job_limit');
+        session()->forget('package_featured_job_limit');
 
         return redirect()->route('company_make_payment')->with('success', "Payment is successful!");
     }
@@ -217,17 +228,15 @@ class CompanyController extends Controller
             return redirect()->back()->with('error','Your current package is expired !!');
         }
 
-        $package = Package::find($order->package_id);
+        $package = Package::select('package_name')->where('id',$order->package_id)->first();
         
-        $no_of_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
-        $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
-
         // Check the job posting limit for the current plan except **gold** package
         if($package->package_name != "Gold"){
-            if($no_of_jobs_posted >= $package->total_allowed_jobs){
+            if($order->job_limit == 0){
                 return redirect()->back()->with('error','Upgrade the current package to post more jobs');
             }
         }
+
 
         $job_categories = JobCategory::orderBy('name','asc')->get();
         $job_experiences = JobExperience:: get();
@@ -235,6 +244,7 @@ class CompanyController extends Controller
         $job_locations = JobLocation::orderBy('name','asc')->get();       
         $job_salary_ranges = JobSalaryRange::get();
         $job_types = JobType::orderBy('name','asc')->get();
+
         return view('company.job_create',compact('job_categories','job_experiences','job_genders','job_locations','job_salary_ranges','job_types'));
     }
 
@@ -254,13 +264,18 @@ class CompanyController extends Controller
         ]);
 
         $order = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        $package = Package::find($order->package_id);
-        $no_of_featured_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
+        $package = Package::select('package_name')->where('id',$order->package_id)->first();
+        
+        // Check the job posting limit for the current plan except **gold** package
+        if($package->package_name != "Gold"){
+            if($request->is_featured == 1){
 
-        // Check for the limit of featured jobs for the current plan
-        if($request->is_featured == 1){
-            if($no_of_featured_jobs_posted >= $package->total_allowed_featured_jobs){
-                return redirect()->back()->with('error','Upgrade the current package to add featured option for more jobs');
+                if($order->featured_job_limit == 0){
+                    return redirect()->back()->with('error','Upgrade the current package to add featured option for more jobs');
+                }
+
+                // Decrement the count of featured_job_limit in current plan:
+                $order->featured_job_limit = $order->featured_job_limit - 1;
             }
         }
 
@@ -285,8 +300,11 @@ class CompanyController extends Controller
         $obj->map_code = $request->map_code;
         $obj->save();
 
-        return redirect()->back()->with('success','Job is added successfully');
+        // Decrement the count of job_limit in current plan:
+        $order->job_limit = $order->job_limit - 1;
+        $order->update();
 
+        return redirect()->back()->with('success','Job is added successfully');
     }
 
     public function job_edit($id){

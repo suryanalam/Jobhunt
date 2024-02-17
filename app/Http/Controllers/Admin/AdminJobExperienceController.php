@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobExperience;
+use App\Models\Job;
 
 class AdminJobExperienceController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminJobExperienceController extends Controller
     }
 
     public function delete($id){
+        $count = Job::where('job_experience_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Jobs existed with this experience');
+        }
         JobExperience::where('id',$id)->delete();
         return redirect()->route('admin_job_experience')->with('success','Data is deleted successfully');
     }

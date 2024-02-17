@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Package;
+use App\Models\Order;
 
 class AdminPackageController extends Controller
 {
@@ -76,6 +77,10 @@ class AdminPackageController extends Controller
     }
 
     public function delete($id){
+        $count = Order::where('package_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Orders existed with this packkage');
+        }
         Package::where('id',$id)->delete();
         return redirect()->route('admin_package')->with('success','Data is deleted successfully');
     }

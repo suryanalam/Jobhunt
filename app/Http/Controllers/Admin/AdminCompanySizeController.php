@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CompanySize;
+use App\Models\Company;
 
 class AdminCompanySizeController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminCompanySizeController extends Controller
     }
 
     public function delete($id){
+        $count = Company::where('company_size_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Companies exist with this size');
+        }
         CompanySize::where('id',$id)->delete();
         return redirect()->route('admin_company_size')->with('success','Data is deleted successfully');
     }

@@ -59,10 +59,6 @@
                                                 class="btn btn-warning btn-sm text-white">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{{ route('company_job_delete', $item->id) }}"
-                                                class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CompanyIndustry;
+use App\Models\Company;
 
 class AdminCompanyIndustryController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminCompanyIndustryController extends Controller
     }
 
     public function delete($id){
+        $count = Company::where('company_industry_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Companies exist with this industry');
+        }
         CompanyIndustry::where('id',$id)->delete();
         return redirect()->route('admin_company_industry')->with('success','Data is deleted successfully');
     }

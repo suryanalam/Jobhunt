@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobGender;
+use App\Models\Job;
 
 class AdminJobGenderController extends Controller
 {
@@ -48,6 +49,10 @@ class AdminJobGenderController extends Controller
     }
 
     public function delete($id){
+        $count = Job::where('job_gender_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Jobs existed with this gender');
+        }
         JobGender::where('id',$id)->delete();
         return redirect()->route('admin_job_gender')->with('success','Data is deleted successfully');
     }

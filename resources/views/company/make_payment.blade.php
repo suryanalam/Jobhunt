@@ -21,17 +21,17 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-12">
-                    <h4>Current Plan</h4>
+                    <h4>Current Package</h4>
                     <div class="row box-items mb-4">
                         <div class="col-md-4">
                             <div class="bg-dark text-light p-4">
                                 @if ($current_plan == null)
-                                    <span class="text-danger">No plan is available</span>
+                                    <span class="text-danger">No package available</span>
                                 @else
                                     <h4>${{ $current_plan->rPackage->package_price }}</h4>
                                     <p>{{ $current_plan->rPackage->package_name }}</p>
                                     @if (date('Y-m-d') > $current_plan->expire_date)
-                                        <span class="text-danger">Plain expired</span> 
+                                        <span class="text-danger">Expired</span> 
                                     @else
                                         <p> Expires on 
                                             <span class="text-danger">{{ date('d M Y', strtotime($current_plan->expire_date)) }}</span>

@@ -40,7 +40,7 @@
                                         <td>
                                             {{ $item->rPackage->package_name }}
                                             @if ($item->currently_active == '1')
-                                                <span class="badge bg-success">Active</span>
+                                                <span class="badge bg-success">Current package</span>
                                             @endif
                                         </td>
                                         <td>${{ $item->rPackage->package_price }}</td>

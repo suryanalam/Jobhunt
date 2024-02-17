@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobCategory;
+use App\Models\Job;
 
 class AdminJobCategoryController extends Controller
 {
@@ -52,6 +53,10 @@ class AdminJobCategoryController extends Controller
     }
 
     public function delete($id){
+        $count = Job::where('job_category_id',$id)->count();
+        if($count > 0){
+            return redirect()->back()->with('error','Invalid !! Jobs existed with this category');
+        }
         JobCategory::where('id',$id)->delete();
         return redirect()->route('admin_job_category')->with('success','Data is deleted successfully');
     }
